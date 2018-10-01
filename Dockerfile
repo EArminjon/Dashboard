@@ -1,9 +1,5 @@
 FROM debian:stretch
 
-# RUN apt update && apt install -y curl software-properties-common \
-# && curl -sL https://deb.nodesource.com/setup_10.x | bash -
-# # && apt-get install -y nodejs
-
 #Installation de curl avec apt-get
 RUN apt update \
 && apt-get install -y curl \
