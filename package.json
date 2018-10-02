@@ -1,0 +1,20 @@
+{
+  "name": "DEV_dashboard_2018",
+  "version": "1.0.0",
+  "description": "docker build -t solary .",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.epitech.eu:/enguerrand.arminjon@epitech.eu/DEV_dashboard_2018"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
