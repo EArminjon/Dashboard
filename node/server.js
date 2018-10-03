@@ -2,9 +2,22 @@ const express = require('express');
 
 const app = express();
 
-app.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.sendFile(__dirname + '/public/html/index.html');
-});
+function makeServer() {
+    app.get('/', function(req, res) {
+        res.setHeader('Content-Type', 'text/plain');
+        res.sendFile(__dirname + '/public/html/index.html');
+        });
 
-app.listen(3000);
+        return app.listen(3000);
+}
+
+const Serv = makeServer();
+
+function abc() {
+    return "abc";
+}
+
+module.exports = {
+    Serv,
+    abc
+}
