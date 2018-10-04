@@ -6,9 +6,9 @@ RUN apt update \
 && rm -rf /var/lib/apt/lists/*
 
 # Installation de Node.js
-RUN curl -LO "https://nodejs.org/dist/v0.12.5/node-v0.12.5-linux-x64.tar.gz" \
-&& tar -xzf node-v0.12.5-linux-x64.tar.gz -C /usr/local --strip-components=1 \
-&& rm node-v0.12.5-linux-x64.tar.gz
+RUN curl -LO "https://nodejs.org/dist/v10.11.0/node-v10.11.0-linux-x64.tar.gz" \
+&& tar -xzf node-v10.11.0-linux-x64.tar.gz -C /usr/local --strip-components=1 \
+&& rm node-v10.11.0-linux-x64.tar.gz
 
 ADD ./node/server.js package.json /app/
 
