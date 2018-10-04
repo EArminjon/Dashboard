@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "docker build -t solary .",
   "main": "server.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +16,5 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0"
   }
 }
