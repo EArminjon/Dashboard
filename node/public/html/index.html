@@ -1,93 +1,55 @@
-<!doctype html>
-<html lang="fr">
-	<head>
-		<meta charset="utf-8">
-		<title> ENGUEZZ GROSSE MERDE </title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
-	</head>
-	<body id="body">
-		<div id="buttons" class="container">
-			<input id="emailInput" type="email" placeholder="Email">
-			<input id="passwordInput" type="password" placeholder="password">
+<html>
+<head>
+    <title>Demo » Resize » gridster.js</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-gridster.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/jquery-gridster.js" type="text/javascript" charset="utf-8"></script>
+    <style id="gridster-stylesheet" type="text/css"> [data-col="1"] { left:5px; }[data-col="2"] { left:110px; }[data-col="3"] { left:215px; }[data-col="4"] { left:320px; }[data-col="5"] { left:425px; }[data-col="6"] { left:530px; }[data-col="7"] { left:635px; }[data-col="8"] { left:740px; }[data-col="9"] { left:845px; }[data-col="10"] { left:950px; }[data-col="11"] { left:1055px; }[data-col="12"] { left:1160px; }[data-col="13"] { left:1265px; }[data-col="14"] { left:1370px; }[data-col="15"] { left:1475px; }[data-row="1"] { top:5px; }[data-row="2"] { top:110px; }[data-row="3"] { top:215px; }[data-row="4"] { top:320px; }[data-row="5"] { top:425px; }[data-row="6"] { top:530px; }[data-row="7"] { top:635px; }[data-row="8"] { top:740px; }[data-row="9"] { top:845px; }[data-row="10"] { top:950px; }[data-row="11"] { top:1055px; }[data-row="12"] { top:1160px; }[data-row="13"] { top:1265px; }[data-row="14"] { top:1370px; }[data-row="15"] { top:1475px; }[data-row="16"] { top:1580px; }[data-sizey="1"] { height:100px; }[data-sizey="2"] { height:205px; }[data-sizey="3"] { height:310px; }[data-sizey="4"] { height:415px; }[data-sizey="5"] { height:520px; }[data-sizey="6"] { height:625px; }[data-sizey="7"] { height:730px; }[data-sizey="8"] { height:835px; }[data-sizey="9"] { height:940px; }[data-sizey="10"] { height:1045px; }[data-sizey="11"] { height:1150px; }[data-sizey="12"] { height:1255px; }[data-sizey="13"] { height:1360px; }[data-sizey="14"] { height:1465px; }[data-sizey="15"] { height:1570px; }[data-sizex="1"] { width:100px; }[data-sizex="2"] { width:205px; }[data-sizex="3"] { width:310px; }[data-sizex="4"] { width:415px; }[data-sizex="5"] { width:520px; }[data-sizex="6"] { width:625px; }[data-sizex="7"] { width:730px; }[data-sizex="8"] { width:835px; }[data-sizex="9"] { width:940px; }[data-sizex="10"] { width:1045px; }[data-sizex="11"] { width:1150px; }[data-sizex="12"] { width:1255px; }[data-sizex="13"] { width:1360px; }[data-sizex="14"] { width:1465px; }</style>
+</head>
+<body>
+    <div id="buttons" class="container">
+        <input id="emailInput" type="email" placeholder="Email">
+        <input id="passwordInput" type="password" placeholder="password">
+    <br>
+    <button id="btnLogIn" class="btn btn-action"> Log In </button>
+    <button id="btnSignUp" class="btn btn-secondary"> Sign Up </button>
+</div>
 
-			<br>
+<button id="btnLogOut" class="btn btn-action"> Log Out </button>
+<div class="gridster ready">
+    <ul style="height: 530px; width: 530px; position: relative;">
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="2" class="gs-w">0<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2" class="gs-w" style="position: absolute;">1<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1" class="gs-w player-revert" style="position: absolute;">2<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="gs-w" style="">3<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="4" data-col="1" data-sizex="1" data-sizey="1" class="gs-w">4<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="gs-w">5<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="4" data-col="2" data-sizex="1" data-sizey="1" class="gs-w">6<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="5" data-col="2" data-sizex="1" data-sizey="1" class="gs-w">7<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="1" data-col="4" data-sizex="1" data-sizey="1" class="gs-w">8<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+        <li data-row="1" data-col="5" data-sizex="1" data-sizey="2" class="gs-w" style="position: absolute;">9<span class="gs-resize-handle gs-resize-handle-both"></span></li>
+    </ul>
+</div>
 
-			<button id="btnLogIn" class="btn btn-action"> Log In </button>
-			<button id="btnSignUp" class="btn btn-secondary"> Sign Up </button>
-
-		</div>
-
-		<button id="btnLogOut" class="btn btn-action"> Log Out </button>
-
-		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-		<script src="/socket.io/socket.io.js"> </script>
-		<script src="/css/style.css"> </script>
-
-		<script src=https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js></script>
-		<script src=https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js></script>
-		<script src="/js/authentification.js"></script>
-
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.gridster/0.5.6/jquery.gridster.js"></script>
-		<!-- <script type="text/javascript">
-		   jQuery(function(){
-		      jQuery(".gridster ul").gridster({
-			  widget_margins: [10, 10],
-			  widget_base_dimensions: [150, 150]
-		      });
-		  });
-		</script> -->
-		<!-- <div class="wrapper gridster">
-				<ul>
-				<li data-row="1" data-col="1" data-sizex="2" data-sizey="2" class="gs-w"><span class="recent gs-resize-handle gs-resize-handle-both"></span></li>
-				<li data-row="1" data-col="3" data-sizex="2" data-sizey="3" class="bg-blue fg-white-link"><span class="twitter"></span></li>
-				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1" class="bg-blueDark fg-white-link"><span class="facebook"></span></li>
-				<li data-row="1" data-col="6" data-sizex="1" data-sizey="1" class="bg-red fg-white-link"><span class="about"></span></li>
-				<li data-row="1" data-col="7" data-sizex="1" data-sizey="1" class="bg-orangeDark fg-white-link"><span class="snippets"></span></li>
-				<li data-row="1" data-col="8" data-sizex="1" data-sizey="2" class="bg-pinkDark fg-white-link"><span class="resources"></span></li>
-
-				<li data-row="2" data-col="5" data-sizex="1" data-sizey="1" class="bg-orangeDark fg-white-link"><span class="googleplus"></span></li>
-				<li data-row="2" data-col="6" data-sizex="2" data-sizey="1" class="bg-pink fg-white-link"><span class="contact"></span></li>
-
-				<li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="bg-greenDark fg-white-link"><span class="articles"></span></li>
-				<li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="bg-yellow fg-darken-link"><span class="tutorials"></span></li>
-				<li data-row="3" data-col="5" data-sizex="1" data-sizey="1" class="bg-red fg-white-link"><span class="pinterest"></span></li>
-				<li data-row="3" data-col="6" data-sizex="3" data-sizey="1" class="bg-green fg-white-link"><span class="archives"></span></li>
-				</ul>
-			</div> -->
-			<script type="text/javascript">
-			var gridster;
-
-			$(function () {
-
-				gridster = $(".gridster ul").gridster({
-				widget_base_dimensions: [100, 100],
-				widget_margins: [5, 5],
-				helper: 'clone',
-				resize: {
-					enabled: true
-				}
-				}).data('gridster');
-			});
-			</script>
-				    <div class="gridster">
-					<ul>
-						<li data-row="1" data-col="1" data-sizex="2" data-sizey="2" class="bg-blue fg-white-link"><span class="recent"></span></li>
-						<li data-row="1" data-col="3" data-sizex="2" data-sizey="3" class="bg-blue fg-white-link"><span class="twitter"></span></li>
-						<li data-row="1" data-col="4" data-sizex="1" data-sizey="1" class="bg-blueDark fg-white-link"><span class="facebook"></span></li>
-						<li data-row="1" data-col="6" data-sizex="1" data-sizey="1" class="bg-red fg-white-link"><span class="about"></span></li>
-						<li data-row="1" data-col="7" data-sizex="1" data-sizey="1" class="bg-orangeDark fg-white-link"><span class="snippets"></span></li>
-						<li data-row="1" data-col="8" data-sizex="1" data-sizey="2" class="bg-pinkDark fg-white-link"><span class="resources"></span></li>
-
-						<li data-row="2" data-col="5" data-sizex="1" data-sizey="1" class="bg-orangeDark fg-white-link"><span class="googleplus"></span></li>
-						<li data-row="2" data-col="6" data-sizex="2" data-sizey="1" class="bg-pink fg-white-link"><span class="contact"></span></li>
-
-						<li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="bg-greenDark fg-white-link"><span class="articles"></span></li>
-						<li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="bg-yellow fg-darken-link"><span class="tutorials"></span></li>
-						<li data-row="3" data-col="5" data-sizex="1" data-sizey="1" class="bg-red fg-white-link"><span class="pinterest"></span></li>
-						<li data-row="3" data-col="6" data-sizex="3" data-sizey="1" class="bg-green fg-white-link"><span class="archives"></span></li>
-					</ul>
-				    </div>
-
-		</body>
+<script src="/socket.io/socket.io.js"> </script>
+<script src="/ss/style.css"> </script>
+<script src=https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js></script>
+<script src=https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js></script>
+<script src="js/authentification.js"></script>
+<script type="text/javascript">
+    var gridster;
+    $(function () {
+        gridster = $(".gridster ul").gridster({
+            widget_base_dimensions: [100, 100],
+            widget_margins: [5, 5],
+            helper: 'clone',
+            resize: {
+                enabled: true
+            }
+        }).data('gridster');
+    });
+</script>
+</body>
 </html>
