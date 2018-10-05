@@ -1,0 +1,122 @@
+body{
+	font-family: 'Droid Sans';
+}
+
+a{ text-decoration: none; }
+.container{
+	width:90%;
+	margin:0 auto;
+	padding:25px;
+	min-height:400px;
+	height:auto;
+}
+
+.gridster ul
+{
+	list-style: none;
+}
+.gridster li
+{
+	text-align: center;
+	position: relative;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding:5px;
+}
+
+.gs-resize-handle-both {
+	width: 20px;
+	height: 20px;
+	bottom: -8px;
+	right: -8px;
+	background-position: top left;
+	background-repeat: no-repeat;
+	cursor: se-resize;
+	z-index: 20;
+}
+
+.gs-resize-handle {
+	position: absolute;
+	z-index: 1;
+}
+
+.gridster .gs-w {
+	cursor: pointer;
+	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.gridster li span { width:100%; display:block; }
+.gridster li span:before{ display: block; height:50px; width:100%; position: absolute; top:35%; left:0; right:0;}
+.gridster li span:after{ position: absolute; bottom: 5px; left:0; right:0; }
+.gridster li span:hover:after{ text-shadow:0 1px 0 #343434; }
+
+/* ==========================================================================
+   Colours
+   ========================================================================== */
+
+.fg-blue,       .fg-blue-link a         {color: #2d89ef;}
+.fg-blueLight,  .fg-blueLight-link a    {color: #eff4ff;}
+.fg-blueDark,   .fg-blueDark-link a     {color: #2b5797;}
+.fg-green,      .fg-green-link a        {color: #00a300;}
+.fg-greenLight, .fg-greenLight-link a   {color: #99b433;}
+.fg-greenDark,  .fg-greenDark-link a    {color: #1e7145;}
+.fg-red,        .fg-red-link a          {color: #b91d47;}
+.fg-yellow,     .fg-yellow-link a       {color: #ffc40d;}
+.fg-orange,     .fg-orange-link a       {color: #e3a21a;}
+.fg-orangeDark, .fg-orangeDark-link a   {color: #da532c;}
+.fg-pink,       .fg-pink-link a         {color: #9f00a7;}
+.fg-pinkDark,   .fg-pinkDark-link a     {color: #7e3878;}
+.fg-purple,     .fg-purple-link a       {color: #603cba;}
+.fg-darken,     .fg-darken-link a       {color: #1d1d1d;}
+.fg-lighten,    .fg-lighten-link a      {color: #d5e7ec;}
+.fg-white,      .fg-white-link a        {color: #ffffff;}
+.fg-grayDark,   .fg-grayDark-link a     {color: #525252;}
+
+.bg-blue       {background-color: #2d89ef;}
+.bg-blueLight  {background-color: #eff4ff;}
+.bg-blueDark   {background-color: #2b5797;}
+.bg-green      {background-color: #00a300;}
+.bg-greenLight {background-color: #99b433;}
+.bg-greenDark  {background-color: #1e7145;}
+.bg-red        {background-color: #b91d47;}
+.bg-yellow     {background-color: #ffc40d;}
+.bg-orange     {background-color: #e3a21a;}
+.bg-orangeDark {background-color: #da532c;}
+.bg-pink       {background-color: #9f00a7;}
+.bg-pinkDark   {background-color: #7e3878;}
+.bg-purple     {background-color: #603cba;}
+.bg-darken     {background-color: #1d1d1d;}
+.bg-lighten    {background-color: #d5e7ec;}
+.bg-white      {background-color: #ffffff;}
+.bg-grayDark   {background-color: #525252;}
+
+/*******************************************************************************
+ * Icons
+ *******************************************************************************/
+ .recent:before{ content:'';}
+ .twitter:before{ content:'';}
+ .facebook:before{ content:'';}
+ .about:before{ content:'';}
+ .snippets:before{ content:'';}
+ .resources:before{ content:'';}
+ .googleplus:before{ content:'';}
+ .contact:before{ content:'';}
+ .articles:before{ content:'';}
+ .tutorials:before{ content:'';}
+ .pinterest:before{ content:'';}
+ .archives:before{ content:'';}
+
+ .recent:after{ content:'Recent Articles'; }
+ .twitter:after{ content:'Twitter'; }
+ .facebook:after{ content:'Facebook'; }
+ .about:after{ content:'About'; }
+ .snippets:after{ content:'Snippets'; }
+ .resources:after{ content:'Resources'; }
+ .googleplus:after{ content:'Google Plus'; }
+ .contact:after{ content:'Contact'; }
+ .articles:after{ content:'Articles'; }
+ .tutorials:after{ content:'Tutorials'; }
+ .pinterest:after{ content:'Pinterest'; }
+ .archives:after{ content:'Archives'; }
