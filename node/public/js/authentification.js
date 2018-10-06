@@ -75,3 +75,26 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 	};
 });
 
+//Ajoute le gridster
+var gridster;
+$(function () {
+	gridster = $(".gridster ul").gridster({
+		widget_base_dimensions: [100, 100],
+		widget_margins: [5, 5],
+		helper: 'clone',
+		resize: {
+			enabled: true
+		}
+	}).data('gridster');
+
+	//ajoute un élement
+	gridster.add_widget.apply(gridster, ['<li><button class="delete-button" style="float: right;">卐</button></li>', 2, 2]);
+	gridster.add_widget.apply(gridster, ['<li><button class="delete-button" style="float: right;">卐</button></li>', 2, 2]);
+	gridster.add_widget.apply(gridster, ['<li><button class="delete-button" style="float: right;">卐</button></li>', 2, 2]);
+});
+
+//Action quand on clique sur le bouton du widget
+$(document).on( "click", ".gridster .delete-button", function() {
+	var gridster = $(".gridster ul").gridster().data('gridster');
+	console.log(gridster);
+});
