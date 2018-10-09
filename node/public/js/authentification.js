@@ -7,6 +7,7 @@ var config = {
     messagingSenderId: "97436209942"
 };
 var socket = io.connect(document.URL);
+socket.emit('join');
 
 firebase.initializeApp(config);
 
@@ -50,6 +51,7 @@ btnSignUp.addEventListener("click", e => {
 // 	console.log("mdr");
 // });
 
+
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log("co")
@@ -58,10 +60,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         // 	console.log(firebaseUser);
         // 	socket.on('connect', function(data) {
         // 		socket.emit('join', 'Hello World from client');
-        // 	});
-
-        // 	socket.on('messages', function(data) {
-        // 		alert(data);
         // 	});
 
         // 	socket.on('broad', function(data) {
@@ -75,76 +73,67 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     }
 });
 
-//Ajoute le gridster
-var gridster;
-$(function () {
-    gridster = $(".gridster ul").gridster({
-        widget_base_dimensions: [100, 100],
-        widget_margins: [5, 5],
-        helper: 'clone',
-        resize: {
-            enabled: true
-        }
-    }).data('gridster');
-
-    //ajoute un élement
-    gridster.add_widget.apply(gridster, ['<li> <button class="delete-button" style="position:relative; z-index:100;float: right;">卐</button>' + widgets[0] + '</li>', 2, 2]);
-    gridster.add_widget.apply(gridster, ['<li> <button class="delete-button" style="position:relative; z-index:100;float: right;">卐</button>' + widgets[1] + '</li>', 2, 2]);
-    gridster.add_widget.apply(gridster, ['<li> <button class="delete-button" style="position:relative; z-index:100;float: right;">卐</button>' + widgets[2] + '</li>', 2, 2]);
-});
-
 //Action quand on clique sur le bouton du widget
 $(document).on("click", ".gridster .delete-button", function () {
     var gridster = $(".gridster ul").gridster().data('gridster');
-    /*console.log($(this).parent("li:first").attr('id'));
-    console.log(gridster);*/
     $(this).parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
     $(this).parent().find("div.widget-content").toggleClass("invisible").toggleClass("visible");
 });
 
-var createRequestData = function (service, widget, array) {
+var createRequestData = function (service, widget, urlOptions, widgetOptions) {
     return requestData = {
         'service': service,
         'widget': widget,
-        'options': array,
+        'urlOptions': urlOptions,
+        'widgetOptions': widgetOptions
     };
 };
 
-submitRequest = function (requestData) {
-    console.log("on envoie");
-    socket.emit('submit_form', requestData,
-        function (error, result) {
-            console.log("Reception:");
-            if (error === "" && result.error === "") {
-                console.log("GOOD:");
-                console.log(result);
-                $("#" + requestData.options.id).html(result.data);
-                $("#" + requestData.options.id + " form").on('submit', submitFunction);
-            } else {
-                console.log("ERROR:");
-                console.log(result);
-            }
-        });
-};
+var gridster;
+gridster = $(".gridster ul").gridster({
+    widget_base_dimensions: [100, 100],
+    widget_margins: [5, 5],
+    helper: 'clone',
+    resize: {enabled: true},
+}).data('gridster');
 
 $(document).ready(function () {
-    submitFunction = function (event) {
+    var submitRequest = function (requestData) {
+        console.log("on envoie");
+        socket.emit('submit_form', requestData,
+            function (result) {
+                console.log("Reception:");
+                if (result !== "") {
+                    console.log("GOOD:");
+                    console.log(result);
+                    $("#" + requestData.widgetOptions.id).html(result);
+                    $("#" + requestData.widgetOptions.id + " form").on('submit', submitFunction);
+                } else {
+                    console.log("ERROR:");
+                    console.log(result);
+                }
+            });
+    };
+
+    var submitFunction = function (event) {
         event.preventDefault();
-        console.log("HEREEEEE");
+        var service = $(this).data("service");
+        var widget = $(this).data("widget");
         var id = $(this).data("id");
         var formData = $(this).serializeArray();
-        var array = [];
+        var array = {};
         formData.forEach(function (key) {
             array[key.name] = key.value;
         });
 
         console.log(array);
-        var requestData = createRequestData('weather', 'today', {
-            'id': id,
-            'city': array.city,
-            'degree': array.degree,
-        });
+        var requestData = createRequestData(service, widget, array, {id: id});
         submitRequest(requestData);
     };
-    $(".widget form").on('submit', submitFunction);
+
+    socket.on('addwidget', function (html) {
+        gridster.add_widget.apply(gridster, ['<li> <button class="delete-button" style="position:relative;z-index:100;float:right;">卐</button>' + html + '</li>', 2, 2]);
+        $(".widget form").on('submit', submitFunction);
+    })
 });
+

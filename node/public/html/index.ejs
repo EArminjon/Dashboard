@@ -22,28 +22,8 @@
 <button id="btnLogOut" class="btn btn-action"> Log Out</button>
 <div class="gridster ready">
     <ul style="height: 530px; width: 530px; position: relative;">
-        <!-- <li data-row="1" data-col="1" data-sizex="2" data-sizey="2" class="gs-w">0<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2" class="gs-w" style="position: absolute;">1<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1" class="gs-w player-revert" style="position: absolute;">2<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="gs-w" style="">3<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="4" data-col="1" data-sizex="1" data-sizey="1" class="gs-w">4<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="gs-w">5<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="4" data-col="2" data-sizex="1" data-sizey="1" class="gs-w">6<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="5" data-col="2" data-sizex="1" data-sizey="1" class="gs-w">7<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="1" data-col="4" data-sizex="1" data-sizey="1" class="gs-w">8<span class="gs-resize-handle gs-resize-handle-both"></span></li>
-        <li data-row="1" data-col="5" data-sizex="1" data-sizey="2" class="gs-w" style="position: absolute;">9<span class="gs-resize-handle gs-resize-handle-both"></span></li> -->
     </ul>
 </div>
-<!--<script src="https://query.yahooapis.com/v1/public/yql?q=select wind from weather.forecast where woeid in (select woeid from geo.places(1) where text='chicago, il')&format=json&callback=callbackFunction"></script>-->
-
-<% if (widgets) { %>
-    <script>
-        var widgets = [];
-        widgets.push('<%- widgets[0] -%>');
-        widgets.push('<%- widgets[1] -%>');
-        widgets.push('<%- widgets[2] -%>');
-    </script>
-<% } %>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src=https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js></script>
