@@ -15,9 +15,9 @@ function makeServer() {
 
     app.get('/', function (req, res) {
         var widgets = [];
-        widgets.push(widgetsTools.getWeather(app, "PARIS"));
-        widgets.push(widgetsTools.getWeather(app, "BERLIN"));
-        widgets.push(widgetsTools.getWeather(app, "MUNICH"));
+        widgets.push(widgetsTools.getWeather(app, "PARIS", 1));
+        widgets.push(widgetsTools.getWeather(app, "BERLIN", 2));
+        widgets.push(widgetsTools.getWeather(app, "MUNICH", 3));
         res.render(__dirname + '/public/html/index.ejs', {
             widgets: widgets,
         });

@@ -1,4 +1,4 @@
-var widget = function (json, app) {
+var widget = function (json, app, id) {
     var data = JSON.parse(json);
     var str = data.query.results.channel.item.description;
     var lim = str.search("src=\"") + 5;
@@ -12,6 +12,7 @@ var widget = function (json, app) {
 
     global.html;
     app.render(__dirname + '/weather_template.ejs', {
+        id: id,
         title: title,
         temperature: temperature,
         url: url,
@@ -22,7 +23,11 @@ var widget = function (json, app) {
     return global.html;
 };
 
-function getWeather(app, city) {
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function getWeather(app, city, id) {
     /*var city = "PARIS";*/
     var degree = "c";
     var url = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "') and u='" + degree + "'&format=json";
@@ -30,8 +35,8 @@ function getWeather(app, city) {
     var sync_request = require("sync-request");
 
     var res = sync_request('GET', url);
-    var html = widget(res.getBody().toString(), app);
-    /*html = html.fromCharCode(13, 10);*/
+    var html = widget(res.getBody().toString(), app, id);
+    html = replaceAll(html, '\n', ' ');
     return html;
 }
 
