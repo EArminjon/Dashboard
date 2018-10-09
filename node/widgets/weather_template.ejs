@@ -1,7 +1,9 @@
 <div class="widget" id="<%= id %>">
     <div class="invisible widget-options" style="position: absolute; z-index: 1">
-        <form>
-            <input style="width: 100%" name="city" placeholder="Paris" type="text"/>
+        <form data-id="<%= id %>">
+            <label for="widget_weather_city_<%= id %>"> Ville </label><input id="widget_weather_city_<%= id %>" style="width: 100%" name="city" placeholder="Paris" type="text" required/>
+            <label for="widget_weather_degree_c_<%= id %>"> Celsius </label><input id="widget_weather_degree_c_<%= id %>" style="width: 100%" name="degree" value="c" type="radio" required/>
+            <label for="widget_weather_degree_f_<%= id %>"> Fahrenheit </label><input id="widget_weather_degree_f_<%= id %>" style="width: 100%" name="degree" value="f" type="radio" required/>
             <input type="submit" value="Envoyer">
         </form>
     </div>
@@ -10,11 +12,9 @@
         <table style="background-color: #FFFFFF; font-family: Roboto,serif; color: #868686;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr data-weather="day1" style="background-color: #FFFFFF;">
-                <td data-weather="temp" style="background-color: #FFFFFF;" colspan="2"><span data-weather="temp-now"
-                                                                                             style="color: #EB1924;"><%= temperature %></span>
+                <td data-weather="temp" style="background-color: #FFFFFF;" colspan="2"><span data-weather="temp-now" style="color: #EB1924;"><%= temperature %></span>
                 </td>
-                <td data-weather="image" colspan="3" style="background-color: #FFFFFF;"><img src="<%= url %>"
-                                                                                             alt="Intervalles nuageux"></td>
+                <td data-weather="image" colspan="3" style="background-color: #FFFFFF;"><img src="<%= url %>" alt="Intervalles nuageux"></td>
             </tr>
             </tbody>
         </table>

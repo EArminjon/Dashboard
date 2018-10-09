@@ -15,9 +15,9 @@ function makeServer() {
 
     app.get('/', function (req, res) {
         var widgets = [];
-        widgets.push(widgetsTools.getWeather(app, "PARIS", "widget_1"));
-        widgets.push(widgetsTools.getWeather(app, "BERLIN", "widget_2"));
-        widgets.push(widgetsTools.getWeather(app, "MUNICH", "widget_3"));
+        widgets.push(widgetsTools.getWeather(app, "PARIS", "widget_1", "c"));
+        widgets.push(widgetsTools.getWeather(app, "BERLIN", "widget_2", "c"));
+        widgets.push(widgetsTools.getWeather(app, "MUNICH", "widget_3", "c"));
         res.render(__dirname + '/public/html/index.ejs', {
             widgets: widgets,
         });
@@ -37,7 +37,7 @@ weatherList = function (data, result) {
     switch (widgetName) {
         case 'today':
             console.log(data.options);
-            result.data = widgetsTools.getWeather(app, data.options.city, data.options.id);
+            result.data = widgetsTools.getWeather(app, data.options.city, data.options.id, data.options.degree);
             return result;
         default:
             result.error = 'error: widget not found';

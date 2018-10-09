@@ -96,8 +96,8 @@ $(function () {
 //Action quand on clique sur le bouton du widget
 $(document).on("click", ".gridster .delete-button", function () {
     var gridster = $(".gridster ul").gridster().data('gridster');
-    console.log($(this).parent("li:first").attr('id'));
-    console.log(gridster);
+    /*console.log($(this).parent("li:first").attr('id'));
+    console.log(gridster);*/
     $(this).parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
     $(this).parent().find("div.widget-content").toggleClass("invisible").toggleClass("visible");
 });
@@ -118,8 +118,8 @@ submitRequest = function (requestData) {
             if (error === "" && result.error === "") {
                 console.log("GOOD:");
                 console.log(result);
-                console.log(requestData);
-                $("#" + requestData.id).html(result.data);
+                $("#" + requestData.options.id).html(result.data);
+                $("#" + requestData.options.id + " form").on('submit', submitFunction);
             } else {
                 console.log("ERROR:");
                 console.log(result);
@@ -127,9 +127,24 @@ submitRequest = function (requestData) {
         });
 };
 
-var requestData = createRequestData('weather', 'today', {
-    'id': 'widget_3',
-    'city': 'Paris',
-    'degree': 'c'
+$(document).ready(function () {
+    submitFunction = function (event) {
+        event.preventDefault();
+        console.log("HEREEEEE");
+        var id = $(this).data("id");
+        var formData = $(this).serializeArray();
+        var array = [];
+        formData.forEach(function (key) {
+            array[key.name] = key.value;
+        });
+
+        console.log(array);
+        var requestData = createRequestData('weather', 'today', {
+            'id': id,
+            'city': array.city,
+            'degree': array.degree,
+        });
+        submitRequest(requestData);
+    };
+    $(".widget form").on('submit', submitFunction);
 });
-submitRequest(requestData);

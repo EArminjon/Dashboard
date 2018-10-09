@@ -10,7 +10,7 @@ var widget = function (json, app, id) {
     var title = data.query.results.channel.location.city;
     var temperature = data.query.results.channel.item.condition.temp + "°" + data.query.results.channel.units.temperature;
 
-    global.html;
+    global.html = '';
     app.render(__dirname + '/weather_template.ejs', {
         id: id,
         title: title,
@@ -27,9 +27,9 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
-function getWeather(app, city, id) {
+function getWeather(app, city, id, degree) {
     /*var city = "PARIS";*/
-    var degree = "c";
+    /*var degree = "c";*/
     var url = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "') and u='" + degree + "'&format=json";
     var request = require("request");
     var sync_request = require("sync-request");
