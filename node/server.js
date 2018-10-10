@@ -83,16 +83,6 @@ mongoose.connect(url, { useNewUrlParser: true }, (err) => {
     }
 });
 
-// const user = mongoose.Schema({
-//     username: {
-//         type: String,
-//         unique: true
-//     },
-//     password: String,
-// })
-
-// const model = mongoose.model('User', user);
-
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
   username: {type: String, unique:true},
@@ -125,7 +115,7 @@ passport.use(new LocalStrategy(
         return done(null, user);
       });
     }
-    ));
+));
 
     //////////////////////////////
 app.post('/',
@@ -170,11 +160,15 @@ function(req, res) {
   res.redirect('/success?username='+req.user.username);
 });
 
-client.on('join', function () {
-    serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: 'widget_1'}}, null);
-    serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: 'widget_2'}}, null);
-    serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: 'widget_3'}}, null);
-    client.on('submit_form', function (data, callback) {
-        if (data != null && 'service' in data && 'widget' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
-            serverLister(client, {service: data.service, widget: data.widget, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
-    })
+
+// POUR ENGUEZZ
+// client.on('join', function () {
+//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: 'widget_1'}}, null);
+//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: 'widget_2'}}, null);
+//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: 'widget_3'}}, null);
+//   });
+
+// client.on('submit_form', function (data, callback) {
+//         if (data != null && 'service' in data && 'widget' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
+//             serverLister(client, {service: data.service, widget: data.widget, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
+//   });
