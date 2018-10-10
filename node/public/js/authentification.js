@@ -136,6 +136,7 @@ $(document).ready(function () {
     socket.on('addwidget', function (html) {
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
+
         gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + html + '</li>', 2, 2]);
         $(".widget form").on('submit', submitFunction);
     });

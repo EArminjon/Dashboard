@@ -8,7 +8,7 @@ var asyncRequest = require("request");
 
 app.set('view engine', 'ejs');
 
-var widgetsTools = require(__dirname + "/weather.js");
+var widgetsTools = require(__dirname + "/widgets/weather.js");
 
 function makeServer() {
     app.use(express.static(__dirname + '/public'));
@@ -42,7 +42,7 @@ var addWidgetWithUrl = function (app, client, obj, option, callback) {
                 else
                     callback(html);
             } else
-                console.log("error function null");
+                console.log("error html null");
         } else
             console.log("error url fail");
     });
@@ -58,7 +58,7 @@ var serverLister = function (client, request, callback) {
             console.log("error service");
             return null;
     }
-    if (obj.function != null && obj.url != null)
+    if (obj != null && obj.function != null && obj.url != null)
         addWidgetWithUrl(app, client, obj, request.widgetOptions, callback);
     else
         console.log("error widget");
@@ -71,16 +71,16 @@ io.on('connection', function (client) {
 
     client.on('join', function () {
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 7}}, null);
     });
 
     client.on('addwidget', function (service) {
         id += 1;
-        serverLister(client, {service: service, urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        serverLister(client, {service: service, urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
     });
 
     client.on('submit_form', function (data, callback) {

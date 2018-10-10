@@ -1,20 +1,24 @@
 var widget = function (json, app, option) {
     var data = JSON.parse(json);
-    if (data.query.results == null)
+    if (data.query.results == null) {
+        console.log("query result null");
         return '';
+    }
     var str = data.query.results.channel.item.description;
     var lim = str.search("src=\"") + 5;
     str = str.slice(lim);
     lim = str.search("\"");
 
-    /*console.log(data.query.results.channel);*/
     var url = str.substring(0, lim);
     var title = data.query.results.channel.location.city;
     var temperature = data.query.results.channel.item.condition.temp + "°" + data.query.results.channel.units.temperature;
+    var week = data.query.results.channel.item.forecast;
 
     global.html = null;
     app.render(__dirname + '/weather_template.ejs', {
         id: option.id,
+        nbDays: option.nbDays,
+        week: week,
         title: title,
         temperature: temperature,
         url: url,
