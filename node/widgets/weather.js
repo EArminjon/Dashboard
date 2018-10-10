@@ -1,4 +1,4 @@
-var todayWidget = function (json, app, option) {
+var widget = function (json, app, option) {
     var data = JSON.parse(json);
     if (data.query.results == null)
         return '';
@@ -25,20 +25,14 @@ var todayWidget = function (json, app, option) {
     return global.html;
 };
 
-function weatherService(widget, option) {
+function weatherService(option) {
     var response = {url: null, function: null,};
 
     if (!(option != null && 'city' in option && 'degree' in option))
         return response;
 
-    response.url = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + option.city + "') and u='" + option.degree + "'&format=json";
-    switch (widget) {
-        case 'today':
-            response.function = todayWidget;
-            break;
-        default:
-            break;
-    }
+    response.url = `https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='${option.city}') and u='${option.degree}'&format=json`;
+    response.function = widget;
     return response;
 }
 

@@ -13,7 +13,11 @@ var widgetsTools = require(__dirname + "/weather.js");
 function makeServer() {
     app.use(express.static(__dirname + '/public'));
     app.get('/', function (req, res) {
-        res.render(__dirname + '/public/html/index.ejs', {/* params*/});
+
+        var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
+        res.render(__dirname + '/public/html/index.ejs', {
+            services: services,
+        });
     });
     app.get('/authent.html', function (req, res) {
         res.sendFile(__dirname + '/public/html/authent.html');
@@ -48,7 +52,7 @@ var serverLister = function (client, request, callback) {
     var obj = null;
     switch (request.service) {
         case 'weather':
-            obj = widgetsTools.weatherService(request.widget, request.urlOptions);
+            obj = widgetsTools.weatherService(request.urlOptions);
             break;
         default :
             console.log("error service");
@@ -60,18 +64,28 @@ var serverLister = function (client, request, callback) {
         console.log("error widget");
 };
 
+var id = 0;
+
 io.on('connection', function (client) {
     console.log('Client connected...');
 
     client.on('join', function () {
-        serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: 'widget_1'}}, null);
-        serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: 'widget_2'}}, null);
-        serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: 'widget_3'}}, null);
+        id += 1;
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        id += 1;
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+        id += 1;
+        serverLister(client, {service: 'weather', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
+    });
+
+    client.on('addwidget', function (service) {
+        id += 1;
+        serverLister(client, {service: service, urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`}}, null);
     });
 
     client.on('submit_form', function (data, callback) {
-        if (data != null && 'service' in data && 'widget' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
-            serverLister(client, {service: data.service, widget: data.widget, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
+        if (data != null && 'service' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
+            serverLister(client, {service: data.service, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
     })
 
 });

@@ -74,16 +74,19 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 });
 
 //Action quand on clique sur le bouton du widget
-$(document).on("click", ".gridster .delete-button", function () {
-    var gridster = $(".gridster ul").gridster().data('gridster');
+$(document).on("click", ".gridster .option-button", function () {
     $(this).parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
     $(this).parent().find("div.widget-content").toggleClass("invisible").toggleClass("visible");
 });
 
-var createRequestData = function (service, widget, urlOptions, widgetOptions) {
+$(document).on("click", ".gridster .close-button", function () {
+    $(this).parent().addClass("widgetremoving");
+    gridster.remove_widget($('.widgetremoving'));
+});
+
+var createRequestData = function (service, urlOptions, widgetOptions) {
     return requestData = {
         'service': service,
-        'widget': widget,
         'urlOptions': urlOptions,
         'widgetOptions': widgetOptions
     };
@@ -118,7 +121,6 @@ $(document).ready(function () {
     var submitFunction = function (event) {
         event.preventDefault();
         var service = $(this).data("service");
-        var widget = $(this).data("widget");
         var id = $(this).data("id");
         var formData = $(this).serializeArray();
         var array = {};
@@ -127,13 +129,22 @@ $(document).ready(function () {
         });
 
         console.log(array);
-        var requestData = createRequestData(service, widget, array, {id: id});
+        var requestData = createRequestData(service, array, {id: id});
         submitRequest(requestData);
     };
 
     socket.on('addwidget', function (html) {
-        gridster.add_widget.apply(gridster, ['<li> <button class="delete-button" style="position:relative;z-index:100;float:right;">卐</button>' + html + '</li>', 2, 2]);
+        var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
+        var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
+        gridster.add_widget.apply(gridster, ['<li>' + closeButton + optionButton + html + '</li>', 2, 2]);
         $(".widget form").on('submit', submitFunction);
-    })
+    });
+
+    $(".services-gallery .service .card").on('click', function () {
+        console.log("click");
+        var service = $(this).data("id");
+        socket.emit('addwidget', service);
+    });
+
 });
 
