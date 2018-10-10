@@ -1,3 +1,6 @@
+const fs = require('fs');
+const ejs = require('ejs');
+
 var widget = function (json, app, option) {
     var data = JSON.parse(json);
     if (data.query.results == null) {
@@ -10,23 +13,20 @@ var widget = function (json, app, option) {
     lim = str.search("\"");
 
     var url = str.substring(0, lim);
-    var title = data.query.results.channel.location.city;
+    var city = data.query.results.channel.location.city;
     var temperature = data.query.results.channel.item.condition.temp + "°" + data.query.results.channel.units.temperature;
     var week = data.query.results.channel.item.forecast;
 
-    global.html = null;
-    app.render(__dirname + '/weather_template.ejs', {
+    var ejsfile = fs.readFileSync(__dirname + '/weather_template.ejs', 'utf-8');
+
+    return ejs.render(ejsfile, {
         id: option.id,
         nbDays: option.nbDays,
         week: week,
-        title: title,
+        city: city,
         temperature: temperature,
         url: url,
-    }, function (error, htmldata) {
-        global.html = htmldata;
     });
-
-    return global.html;
 };
 
 function weatherService(option) {

@@ -38,7 +38,7 @@ var addWidgetWithUrl = function (app, client, obj, option, callback) {
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', html);
+                    client.emit('addwidget', {html: html, id: option.id});
                 else
                     callback(html);
             } else
@@ -52,14 +52,14 @@ var serverLister = function (client, request, callback) {
     var obj = null;
     switch (request.service) {
         case 'weather':
-            obj = widgetsTools.weatherService(request.urlOptions);
+            obj = widgetsTools.weatherService(request.options);
             break;
         default :
             console.log("error service");
             return null;
     }
     if (obj != null && obj.function != null && obj.url != null)
-        addWidgetWithUrl(app, client, obj, request.widgetOptions, callback);
+        addWidgetWithUrl(app, client, obj, request.options, callback);
     else
         console.log("error widget");
 };
@@ -71,21 +71,24 @@ io.on('connection', function (client) {
 
     client.on('join', function () {
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
+        serverLister(client, {service: 'weather', options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
+        serverLister(client, {service: 'weather', options: {city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
         id += 1;
-        serverLister(client, {service: 'weather', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 7}}, null);
+        serverLister(client, {service: 'weather', options: {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
     });
 
     client.on('addwidget', function (service) {
         id += 1;
-        serverLister(client, {service: service, urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: `widget_${id}`, nbDays: 1}}, null);
+        serverLister(client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
     });
 
     client.on('submit_form', function (data, callback) {
-        if (data != null && 'service' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
-            serverLister(client, {service: data.service, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
+        console.log("submit");
+        if (data != null && 'service' in data && 'options' in data && callback != null)
+            serverLister(client, {service: data.service, options: data.options}, callback);
+        else
+            console.log("invalid submit");
     })
 
 });
