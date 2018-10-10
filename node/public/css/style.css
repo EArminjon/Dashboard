@@ -2,6 +2,18 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
+.widget {
+    padding: 5px;
+}
+
+.row.radio {
+    margin-left: 0px;
+}
+
+div.button {
+    display: flow-root;
+}
+
 .scrolling-wrapper {
     overflow-x: scroll;
     overflow-y: hidden;

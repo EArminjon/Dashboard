@@ -75,12 +75,12 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
 //Action quand on clique sur le bouton du widget
 $(document).on("click", ".gridster .option-button", function () {
-    $(this).parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
-    $(this).parent().find("div.widget-content").toggleClass("invisible").toggleClass("visible");
+    $(this).parent().parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
+    $(this).parent().parent().find("div.widget-content").toggleClass("invisible").toggleClass("visible");
 });
 
 $(document).on("click", ".gridster .close-button", function () {
-    $(this).parent().addClass("widgetremoving");
+    $(this).parent().parent().addClass("widgetremoving");
     gridster.remove_widget($('.widgetremoving'));
 });
 
@@ -136,7 +136,7 @@ $(document).ready(function () {
     socket.on('addwidget', function (html) {
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-        gridster.add_widget.apply(gridster, ['<li>' + closeButton + optionButton + html + '</li>', 2, 2]);
+        gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + html + '</li>', 2, 2]);
         $(".widget form").on('submit', submitFunction);
     });
 

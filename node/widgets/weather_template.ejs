@@ -1,10 +1,27 @@
 <div class="widget" id="<%= id %>">
     <div class="invisible widget-options" style="position: absolute; z-index: 1">
         <form data-id="<%= id %>" data-service="weather">
-            <label for="widget_weather_city_<%= id %>"> Ville </label><input id="widget_weather_city_<%= id %>" style="width: 100%" name="city" placeholder="Paris" type="text" required/>
-            <label for="widget_weather_degree_c_<%= id %>"> Celsius </label><input id="widget_weather_degree_c_<%= id %>" style="width: 100%" name="degree" value="c" type="radio" required/>
-            <label for="widget_weather_degree_f_<%= id %>"> Fahrenheit </label><input id="widget_weather_degree_f_<%= id %>" style="width: 100%" name="degree" value="f" type="radio" required/>
-            <input type="submit" value="Envoyer">
+
+            <div class="form-group row">
+                <label for="widget_weather_city_<%= id %>" class="col-sm-2 col-form-label">Ville</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="widget_weather_city_<%= id %>" style="width: 100%" name="city" placeholder="Paris" type="text" required/>
+                </div>
+            </div>
+            <div class="form-group row radio">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_c_<%= id %>" value="c" required/>
+                    <label class="form-check-label" for="widget_weather_degree_c_<%= id %>">Celsius</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_f_<%= id %>" value="f" required/>
+                    <label class="form-check-label" for="widget_weather_degree_f_<%= id %>">Fahrenheit</label>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Envoyer</button>
+            </div>
         </form>
     </div>
     <div class="visible widget-content" style="position: absolute;z-index: 1; color: #00ABEB;"><span
