@@ -1,3 +1,4 @@
+const io = require("socket.io");
 var socket = io.connect(document.URL);
 socket.emit('join');
 
