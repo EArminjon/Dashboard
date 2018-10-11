@@ -19,10 +19,7 @@ var widget = function (json, app, option) {
 
     var ejsfile = fs.readFileSync(__dirname + '/weather_template.ejs', 'utf-8');
 
-    return ejs.render(ejsfile, {
-        id: option.id,
-        nbDays: option.nbDays,
-        degree: option.degree,
+    return ejs.render(ejsfile, {...option,
         week: week,
         city: city,
         temperature: temperature,

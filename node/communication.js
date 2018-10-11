@@ -49,19 +49,19 @@ module.exports.communication = function (app, io) {
         console.log('Client connected...');
         client.on('join', function () {
             id += 1;
-            serverLister(app, client, {service: 'stockMarket', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'stockMarket', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7, refresh: 3}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 7, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 7, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
         });
 
         client.on('addwidget', function (service) {
             id += 1;
             //pas besoin de la position, le gridster se demerde
-            serverLister(app, client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
         });
 
         client.on('updatePosition', function(object) {
