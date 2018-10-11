@@ -17,12 +17,11 @@ var widget = function (json, app, option) {
     var temperature = data.query.results.channel.item.condition.temp + "°" + data.query.results.channel.units.temperature;
     var week = data.query.results.channel.item.forecast;
 
-    var ejsfile = fs.readFileSync(__dirname + '/weather_template.ejs', 'utf-8');
+    var ejsfile = fs.readFileSync(__dirname + '/stockMarket_template.ejs', 'utf-8');
 
     return ejs.render(ejsfile, {
         id: option.id,
         nbDays: option.nbDays,
-        degree: option.degree,
         week: week,
         city: city,
         temperature: temperature,
@@ -30,7 +29,7 @@ var widget = function (json, app, option) {
     });
 };
 
-function weatherService(option) {
+function stockMarketService(option) {
     var response = {url: null, function: null,};
 
     if (!(option != null && 'city' in option && 'degree' in option))
@@ -42,6 +41,6 @@ function weatherService(option) {
 }
 
 module.exports = {
-    weatherService: weatherService,
+    stockMarketService: stockMarketService,
 };
 

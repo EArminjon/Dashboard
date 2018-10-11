@@ -1,5 +1,6 @@
-var widgetsTools = require(__dirname + "/widgets/weather.js");
 var asyncRequest = require("request");
+var weatherService = require(__dirname + "/widgets/weather.js").weatherService;
+var stockMarketService = require(__dirname + "/widgets/stockMarket.js").stockMarketService;
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
@@ -26,7 +27,10 @@ var serverLister = function (app, client, request, callback) {
     var obj = null;
     switch (request.service) {
         case 'weather':
-            obj = widgetsTools.weatherService(request.options);
+            obj = weatherService(request.options);
+            break;
+        case 'stockMarket':
+            obj = stockMarketService(request.options);
             break;
         default :
             console.log("error service");
@@ -45,16 +49,23 @@ module.exports.communication = function (app, io) {
         console.log('Client connected...');
         client.on('join', function () {
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
+            serverLister(app, client, {service: 'stockMarket', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            id += 1;
+            serverLister(app, client, {service: 'weather', options: {position: {col: 7, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
         });
 
         client.on('addwidget', function (service) {
             id += 1;
+            //pas besoin de la position, le gridster se demerde
             serverLister(app, client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+        });
+
+        client.on('updatePosition', function(object) {
+            /*console.log(object);*/ //testé et on a tout
         });
 
         client.on('submit_form', function (data, callback) {

@@ -27,23 +27,35 @@ $(document).on("click", ".gridster .option-button", function () {
 });
 
 $(document).on("click", ".gridster .close-button", function () {
-    $(this).parent().parent().addClass("widgetremoving");
+    var selector = $(this).parent().parent();
+    var object = widgetData($(selector).find("form"));
+    //object
+    socket.emit('removewidget', object);
+    $(selector).addClass("widgetremoving");
     gridster.remove_widget($('.widgetremoving'));
 });
-
-var createRequestData = function (service, options, position) {
-    return requestData = {
-        'service': service,
-        'options': options,
-        'position': position,
-    };
-};
 
 var gridster = $(".gridster ul").gridster({
     widget_base_dimensions: [100, 100],
     widget_margins: [5, 5],
     helper: 'clone',
     resize: {enabled: true},
+    draggable: {
+        /*start: function(event, ui) {
+            console.log("start drag");
+        },*/
+        stop: function (event, ui) {
+            var selector = $(ui.$player.context);
+            var object = widgetData($(selector).find("form"));
+            object["positions"] = {
+                col: $(selector).data("col"),
+                row: $(selector).data("row"),
+                sizex: $(selector).data("sizex"),
+                sizey: $(selector).data("sizey"),
+            };
+            socket.emit('updatePosition', object);
+        }
+    }
 }).data('gridster');
 
 var widgetData = function (selector) {
@@ -78,7 +90,8 @@ $(document).ready(function () {
     };
 
     var submitFunction = function (event) {
-        event.preventDefault();
+        if (event !== undefined)
+            event.preventDefault();
         var data = widgetData(this);
         data["positions"] = {
             col: $(this).data("col"),
@@ -89,19 +102,37 @@ $(document).ready(function () {
         submitRequest(data);
     };
 
-    socket.on('addwidget', function (objet) {
+    socket.on('addwidget', function (object) {
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-        console.log(objet);
-        if ("positions" in objet && "col" in objet.positions && "row" in objet.positions && "sizex" in objet.positions && "sizey" in objet.positions) {
+        console.log(object);
+        if ("positions" in object && "col" in object.positions && "row" in object.positions && "sizex" in object.positions && "sizey" in object.positions) {
             console.log("positions found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>',
-                objet.positions.sizex, objet.positions.sizey, objet.positions.col, objet.positions.row, ]);
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + object.html + '</li>',
+                object.positions.sizex, object.positions.sizey, object.positions.col, object.positions.row,]);
         } else {
             console.log("positions not found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>', 2, 2]);
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + object.html + '</li>', 2, 2]);
+            var id = "#" + object.id;
+            object["positions"] = {
+                col: $(id).parent().data("col"),
+                row: $(id).parent().data("row"),
+                sizex: $(id).parent().data("sizex"),
+                sizey: $(id).parent().data("sizey"),
+            };
+            socket.emit('updatePosition', object);
         }
-        $("#" + objet.id + "  form").on('submit', submitFunction);
+        /*setInterval(function(){ alert("Hello"); }, 3000);*/
+        $("#" + object.id + "  form").on('submit', submitFunction);
+        var refresh = function (id) {
+            console.log("refresh " + id);
+            if (id === undefined)
+                clearInterval(uid);
+            else if ($("#" + id).find("div.widget-options").hasClass("visible"))
+                return;
+            console.log($("#" + id + "  form").submit());
+        };
+/*        var uid = setInterval(refresh.bind(null, object.id), 3000);*/ //ça marche
     });
 
     $(".services-gallery .service .card").on('click', function () {
