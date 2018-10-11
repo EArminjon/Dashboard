@@ -31,10 +31,11 @@ $(document).on("click", ".gridster .close-button", function () {
     gridster.remove_widget($('.widgetremoving'));
 });
 
-var createRequestData = function (service, options) {
+var createRequestData = function (service, options, position) {
     return requestData = {
         'service': service,
         'options': options,
+        'position': position,
     };
 };
 
@@ -45,7 +46,7 @@ var gridster = $(".gridster ul").gridster({
     resize: {enabled: true},
 }).data('gridster');
 
-var widgetData = function(selector) {
+var widgetData = function (selector) {
     var service = $(selector).data("service");
     var id = $(selector).data("id");
     var formData = $(selector).serializeArray();
@@ -54,17 +55,8 @@ var widgetData = function(selector) {
     formData.forEach(function (key) {
         array[key.name] = key.value;
     });
-    return {service: service, data: array};
+    return {service: service, options: array};
 };
-
-function saveGrindster() {
-    console.log("save");
-    $('.gridster ul li').each(function () {
-        var data = widgetData($(this).find("form"));
-        console.log($(this));
-        console.log(data);
-    });
-}
 
 
 $(document).ready(function () {
@@ -87,21 +79,29 @@ $(document).ready(function () {
 
     var submitFunction = function (event) {
         event.preventDefault();
-        var widgetData = widgetData(this);
-        var requestData = createRequestData(widgetData.service, widgetData.data);
-        submitRequest(requestData);
+        var data = widgetData(this);
+        data["positions"] = {
+            col: $(this).data("col"),
+            row: $(this).data("row"),
+            sizex: $(this).data("sizex"),
+            sizey: $(this).data("sizey"),
+        };
+        submitRequest(data);
     };
 
     socket.on('addwidget', function (objet) {
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-
-        gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>', 2, 2]);
+        console.log(objet);
+        if ("positions" in objet && "col" in objet.positions && "row" in objet.positions && "sizex" in objet.positions && "sizey" in objet.positions) {
+            console.log("positions found");
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>',
+                objet.positions.sizex, objet.positions.sizey, objet.positions.col, objet.positions.row, ]);
+        } else {
+            console.log("positions not found");
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>', 2, 2]);
+        }
         $("#" + objet.id + "  form").on('submit', submitFunction);
-
-        /** SAVE GRINDSTER INTO USER ACCOUNT **/
-        saveGrindster();
-        /** DONE **/
     });
 
     $(".services-gallery .service .card").on('click', function () {

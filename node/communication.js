@@ -12,7 +12,7 @@ var addWidgetWithUrl = function (app, client, obj, option, callback) {
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', {html: html, id: option.id});
+                    client.emit('addwidget', {html: html, id: option.id, positions: option.position});
                 else
                     callback(html);
             } else
@@ -40,16 +40,16 @@ var serverLister = function (app, client, request, callback) {
 
 var id = 0;
 
-module.exports.communication = function(app, io) {
+module.exports.communication = function (app, io) {
     io.on('connection', function (client) {
         console.log('Client connected...');
         client.on('join', function () {
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
         });
 
         client.on('addwidget', function (service) {
@@ -59,10 +59,10 @@ module.exports.communication = function(app, io) {
 
         client.on('submit_form', function (data, callback) {
             console.log("submit");
-            if (data != null && 'service' in data && 'options' in data && callback != null)
-                serverLister(app, client, {service: data.service, options: data.options}, callback);
+            if (data != null && 'service' in data && 'options' in data && 'positions' in data && callback != null)
+                serverLister(app, client, data, callback);
             else
                 console.log("invalid submit");
         });
     });
-}
+};
