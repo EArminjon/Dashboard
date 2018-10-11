@@ -4,28 +4,6 @@ const express = require('express');
 const app = express();
 
 var server = require('http').createServer(app);
-<<<<<<< HEAD
-var io = require('socket.io')(server);
-var asyncRequest = require("request");
-var flash=require("connect-flash");
-app.use(flash());
-
-
-const uuid = require('uuid/v4');
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use(session({
-    genid: (req) => {
-        console.log('Inside the session middleware')
-      console.log(req.sessionID)
-      return uuid() // use UUIDs for session IDs
-    },
-    store: new FileStore(),
-=======
 var io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -34,7 +12,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({
->>>>>>> 0897954d787a251446e8630bba037402a6bfda70
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
