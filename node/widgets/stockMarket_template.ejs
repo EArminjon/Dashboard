@@ -10,14 +10,12 @@
             </div>
             <div class="form-group row radio">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_c_<%= id %>" value="c" required
-                            <% if (degree == 'c') { %> checked <% } %>/>
+                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_c_<%= id %>" value="c" required/>
                     <label class="form-check-label" for="widget_weather_degree_c_<%= id %>">Celsius</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_f_<%= id %>" value="f" required
-                    <% if (degree == 'f') { %> checked <% } %> />
+                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_f_<%= id %>" value="f" required/>
                     <label class="form-check-label" for="widget_weather_degree_f_<%= id %>">Fahrenheit</label>
                 </div>
             </div>
@@ -25,12 +23,6 @@
                 <label for="widget_weather_nbDays_<%= id %>" class="col-sm-2 col-form-label">Jours</label>
                 <div class="col-sm-10">
                     <input class="form-control" type="number" name="nbDays" id="widget_weather_nbDays_<%= id %>" value="<%= nbDays %>" required/>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="widget_weather_refresh_<%= id %>" class="col-sm-2 col-form-label">Actualiser</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="number" name="refresh" id="widget_weather_refresh_<%= id %>" value="<%= refresh %>" required/>
                 </div>
             </div>
             <div class="col-auto">
