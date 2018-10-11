@@ -6,23 +6,18 @@ const app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
+const session = require('express-session');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+  }))
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/public/html/auth.html'));
-app.get('/success', (req, res) => {
-    var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
-    res.render(__dirname + '/public/html/index.ejs', {
-        services: services,
-    });
-});
-
-
-app.get('/error', (req, res) => res.send("error logging in"));
-
-server.listen(app.listen(3000, () => console.log('App listening on port ' + 3000)));
+server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 
 
 /* COM */
@@ -38,7 +33,7 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-    User.findById(id, function (err, user) {
+    UserDetails.findById(id, function (err, user) {
         cb(err, user);
     });
 });
@@ -107,7 +102,6 @@ passport.use('local-signup', new LocalStrategy({
         passwordField: 'password'
     },
     function (username, password, done) {
-        console.log("mdr");
         UserDetails.findOne({username: username}, function (err, user) {
             if (err)
                 return done(err);
@@ -134,3 +128,35 @@ app.post('/a',
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
+
+app.get('/', isLoggedIn, (req, res) => {
+    res.sendFile(__dirname + '/public/html/auth.html');
+})
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()) {
+        res.redirect('/success');
+    }
+    return next();
+}
+
+app.get('/success', isNotLogged, (req, res) => {
+    var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
+    res.render(__dirname + '/public/html/index.ejs', {
+        services: services,
+    });
+});
+
+function isNotLogged(req, res, next) {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
+
+app.get('/error', (req, res) => res.send("error logging in"));
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
