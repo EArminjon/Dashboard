@@ -4,10 +4,13 @@ const express = require('express');
 const app = express();
 
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 var asyncRequest = require("request");
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/public/html/auth.html'));
 app.get('/success', (req, res) => {
@@ -21,7 +24,7 @@ app.get('/success', (req, res) => {
 app.get('/error', (req, res) => res.send("error logging in"));
 
 var widgetsTools = require(__dirname + "/widgets/weather.js");
-app.listen(3000, () => console.log('App listening on port ' + 3000));
+server.listen(app.listen(3000, () => console.log('App listening on port ' + 3000)));
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
@@ -152,11 +155,13 @@ passport.use(new LocalStrategy(
 ));
 
 //////////////////////////////
+/*
 app.post('/',
     passport.authenticate('local', {failureRedirect: '/error'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
+*/
 
 
 /////////////////////////////////
@@ -188,21 +193,9 @@ passport.use('local-signup', new LocalStrategy({
         });
     }));
 
+/*
 app.post('/a',
     passport.authenticate('local-signup', {failureRedirect: '/error'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
-    });
-
-
-// POUR ENGUEZZ
-// client.on('join', function () {
-//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Paris', degree: 'c'}, widgetOptions: {id: 'widget_1'}}, null);
-//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Londre', degree: 'c'}, widgetOptions: {id: 'widget_2'}}, null);
-//     serverLister(client, {service: 'weather', widget: 'today', urlOptions: {city: 'Dubai', degree: 'c'}, widgetOptions: {id: 'widget_3'}}, null);
-//   });
-
-// client.on('submit_form', function (data, callback) {
-//         if (data != null && 'service' in data && 'widget' in data && 'urlOptions' in data && 'widgetOptions' in data && callback != null)
-//             serverLister(client, {service: data.service, widget: data.widget, urlOptions: data.urlOptions, widgetOptions: data.widgetOptions}, callback);
-//   });
+    });*/

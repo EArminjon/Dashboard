@@ -1,6 +1,5 @@
-const io = require("socket.io");
-var socket = io.connect(document.URL);
-socket.emit('join');
+var socket = io.connect(window.location.host);
+console.log(socket.emit('join'));
 
 const emailInput = document.getElementById('emailInput');
 const passwordInput = document.getElementById('passwordInput');
