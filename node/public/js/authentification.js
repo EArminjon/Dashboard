@@ -10,14 +10,14 @@ function LoginInfos() {
     // console.log("Login");
     var email = document.getElementById("emailInput").value;
     var password = document.getElementById("passwordInput").value;
-    socket.emit('LoginInfos', { email, password });
+    socket.emit('LoginInfos', {email, password});
 };
 
 function SignupInfos() {
     // console.log("Signup");
     var email = document.getElementById("emailInput").value;
     var password = document.getElementById("passwordInput").value;
-    socket.emit('SignupInfos', { email, password });
+    socket.emit('SignupInfos', {email, password});
 };
 
 //Action quand on clique sur le bouton du widget
@@ -38,13 +38,18 @@ var createRequestData = function (service, options) {
     };
 };
 
-var gridster;
-gridster = $(".gridster ul").gridster({
+var gridster = $(".gridster ul").gridster({
     widget_base_dimensions: [100, 100],
     widget_margins: [5, 5],
     helper: 'clone',
     resize: {enabled: true},
 }).data('gridster');
+
+function saveGrindster() {
+    var s = gridster.serialize();
+    console.log(s);
+}
+
 
 $(document).ready(function () {
     var submitRequest = function (requestData) {
@@ -86,6 +91,10 @@ $(document).ready(function () {
 
         gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + objet.html + '</li>', 2, 2]);
         $("#" + objet.id + "  form").on('submit', submitFunction);
+
+        /** SAVE GRINDSTER INTO USER ACCOUNT **/
+        saveGrindster();
+        /** DONE **/
     });
 
     $(".services-gallery .service .card").on('click', function () {
