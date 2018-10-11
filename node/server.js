@@ -6,14 +6,25 @@ const app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var asyncRequest = require("request");
+
+const uuid = require('uuid/v4');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/public/html/auth.html'));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+  }))
+
 app.get('/success', (req, res) => {
+    console.log("mdr");
     var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
@@ -100,7 +111,7 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-    User.findById(id, function (err, user) {
+    UserDetails.findById(id, function (err, user) {
         cb(err, user);
     });
 });
@@ -195,4 +206,20 @@ app.post('/a',
     passport.authenticate('local-signup', {failureRedirect: '/error'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
-    });
+});
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
+
+app.get('/', isLoggedIn, (req, res) => {
+    res.sendFile(__dirname + '/public/html/auth.html');
+})
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()) {
+        res.redirect('/success');
+    }
+    return next();
+}
