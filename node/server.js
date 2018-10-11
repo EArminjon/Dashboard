@@ -13,6 +13,7 @@ app.get('/', (req, res) => res.sendFile(__dirname + '/public/html/auth.html'));
 app.get('/success', (req, res) => res.send("Welcome "+req.query.username+"!!"));
 app.get('/error', (req, res) => res.send("error logging in"));
 
+var widgetsTools = require(__dirname + "/widgets/weather.js");
 app.listen(3000 , () => console.log('App listening on port ' + 3000));
 
 function replaceAll(str, find, replace) {
@@ -26,11 +27,11 @@ var addWidgetWithUrl = function (app, client, obj, option, callback) {
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', html);
+                    client.emit('addwidget', {html: html, id: option.id});
                 else
                     callback(html);
             } else
-                console.log("error function null");
+                console.log("error html null");
         } else
             console.log("error url fail");
     });
@@ -40,24 +41,48 @@ var serverLister = function (client, request, callback) {
     var obj = null;
     switch (request.service) {
         case 'weather':
-            obj = widgetsTools.weatherService(request.widget, request.urlOptions);
+            obj = widgetsTools.weatherService(request.options);
             break;
         default :
             console.log("error service");
             return null;
     }
-    if (obj.function != null && obj.url != null)
-        addWidgetWithUrl(app, client, obj, request.widgetOptions, callback);
+    if (obj != null && obj.function != null && obj.url != null)
+        addWidgetWithUrl(app, client, obj, request.options, callback);
     else
         console.log("error widget");
 };
 
+var id = 0;
+
+io.on('connection', function (client) {
+    console.log('Client connected...');
 /*  PASSPORT SETUP  */
 
+    client.on('join', function () {
+        id += 1;
+        serverLister(client, {service: 'weather', options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7}}, null);
+        id += 1;
+        serverLister(client, {service: 'weather', options: {city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+        id += 1;
+        serverLister(client, {service: 'weather', options: {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+    });
 const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+    client.on('addwidget', function (service) {
+        id += 1;
+        serverLister(client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1}}, null);
+    });
+
+    client.on('submit_form', function (data, callback) {
+        console.log("submit");
+        if (data != null && 'service' in data && 'options' in data && callback != null)
+            serverLister(client, {service: data.service, options: data.options}, callback);
+        else
+            console.log("invalid submit");
+    })
 passport.serializeUser(function(user, cb) {
   cb(null, user.id);
 });
