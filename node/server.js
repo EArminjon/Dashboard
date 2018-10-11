@@ -155,13 +155,11 @@ passport.use(new LocalStrategy(
 ));
 
 //////////////////////////////
-/*
 app.post('/',
     passport.authenticate('local', {failureRedirect: '/error'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
-*/
 
 
 /////////////////////////////////
@@ -193,9 +191,8 @@ passport.use('local-signup', new LocalStrategy({
         });
     }));
 
-/*
 app.post('/a',
     passport.authenticate('local-signup', {failureRedirect: '/error'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
-    });*/
+    });
