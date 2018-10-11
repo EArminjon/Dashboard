@@ -45,9 +45,25 @@ var gridster = $(".gridster ul").gridster({
     resize: {enabled: true},
 }).data('gridster');
 
+var widgetData = function(selector) {
+    var service = $(selector).data("service");
+    var id = $(selector).data("id");
+    var formData = $(selector).serializeArray();
+    var array = {};
+    array["id"] = id;
+    formData.forEach(function (key) {
+        array[key.name] = key.value;
+    });
+    return {service: service, data: array};
+};
+
 function saveGrindster() {
-    var s = gridster.serialize();
-    console.log(s);
+    console.log("save");
+    $('.gridster ul li').each(function () {
+        var data = widgetData($(this).find("form"));
+        console.log($(this));
+        console.log(data);
+    });
 }
 
 
@@ -71,17 +87,8 @@ $(document).ready(function () {
 
     var submitFunction = function (event) {
         event.preventDefault();
-        var service = $(this).data("service");
-        var id = $(this).data("id");
-        var formData = $(this).serializeArray();
-        var array = {};
-        array["id"] = id;
-        formData.forEach(function (key) {
-            array[key.name] = key.value;
-        });
-
-        console.log(array);
-        var requestData = createRequestData(service, array);
+        var widgetData = widgetData(this);
+        var requestData = createRequestData(widgetData.service, widgetData.data);
         submitRequest(requestData);
     };
 
