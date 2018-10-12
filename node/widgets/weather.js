@@ -30,8 +30,11 @@ var widget = function (json, app, option) {
 function weatherService(option) {
     var response = {url: null, function: null,};
 
-    if (!(option != null && 'city' in option && 'degree' in option))
+    /*console.log(option);*/
+    if (!(option != null && 'city' in option && 'degree' in option)) {
+        console.log("Invalid option");
         return response;
+    }
 
     response.url = `https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='${option.city}') and u='${option.degree}'&format=json`;
     response.function = widget;
