@@ -1,7 +1,7 @@
 const fs = require('fs');
 const ejs = require('ejs');
 
-var widget = function (json, app, option) {
+var widget = function (json, app, options) {
     var data = JSON.parse(json);
     if (data.query.results == null) {
         console.log("query result null");
@@ -20,8 +20,7 @@ var widget = function (json, app, option) {
     var ejsfile = fs.readFileSync(__dirname + '/stockMarket_template.ejs', 'utf-8');
 
     return ejs.render(ejsfile, {
-        id: option.id,
-        nbDays: option.nbDays,
+        ...options,
         week: week,
         city: city,
         temperature: temperature,
@@ -32,8 +31,11 @@ var widget = function (json, app, option) {
 function stockMarketService(option) {
     var response = {url: null, function: null,};
 
-    if (!(option != null && 'city' in option && 'degree' in option))
+    if (!(option != null && 'refresh' in option && 'city' in option && 'degree' in option)) {
+        console.log(option);
+        console.log("Invalid option");
         return response;
+    }
 
     response.url = `https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='${option.city}') and u='${option.degree}'&format=json`;
     response.function = widget;

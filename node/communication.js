@@ -1,19 +1,20 @@
 var asyncRequest = require("request");
-var weatherService = require(__dirname + "/widgets/weather.js").weatherService;
-var stockMarketService = require(__dirname + "/widgets/stockMarket.js").stockMarketService;
+var weatherService = require("./widgets/weather.js").weatherService;
+var stockMarketService = require("./widgets/stockMarket.js").stockMarketService;
+const ServicePackage = require('./public/js/Service.js');
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
-var addWidgetWithUrl = function (app, client, obj, option, callback) {
+var addWidgetWithUrl = function (app, client, obj, Service, callback) {
     asyncRequest(obj.url, function (error, response, body) {
         if (response.statusCode === 200) {
-            var html = obj.function(body, app, option); //option for id
+            var html = obj.function(body, app, Service.options);
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', {html: html, id: option.id, positions: option.position});
+                    client.emit('addwidget', {html: html, Service: Service});
                 else
                     callback(html);
             } else
@@ -23,21 +24,21 @@ var addWidgetWithUrl = function (app, client, obj, option, callback) {
     });
 };
 
-var serverLister = function (app, client, request, callback) {
+var serverLister = function (app, client, Service, callback) {
     var obj = null;
-    switch (request.service) {
+    switch (Service.service) {
         case 'weather':
-            obj = weatherService(request.options);
+            obj = weatherService(Service.options);
             break;
         case 'stockMarket':
-            obj = stockMarketService(request.options);
+            obj = stockMarketService(Service.options);
             break;
         default :
             console.log("error service");
             return null;
     }
     if (obj != null && obj.function != null && obj.url != null)
-        addWidgetWithUrl(app, client, obj, request.options, callback);
+        addWidgetWithUrl(app, client, obj, Service, callback);
     else
         console.log("error widget");
 };
@@ -49,29 +50,31 @@ module.exports.communication = function (app, io) {
         console.log('Client connected...');
         client.on('join', function () {
             id += 1;
-            serverLister(app, client, {service: 'stockMarket', options: {position: {col: 1, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
+            serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 3, row: 1, sizex: 2, sizey: 2}, city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7, refresh: 3}}, null);
+            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7, refresh: 3}, new ServicePackage.Position(3, 1, 2, 2)), null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 5, row: 1, sizex: 2, sizey: 2}, city: 'Londre', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
+            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Londre', degree: 'f', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(5, 1, 2, 2)), null);
             id += 1;
-            serverLister(app, client, {service: 'weather', options: {position: {col: 7, row: 1, sizex: 2, sizey: 2}, city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
+            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, null), null);
         });
 
         client.on('addwidget', function (service) {
             id += 1;
             //pas besoin de la position, le gridster se demerde
-            serverLister(app, client, {service: service, options: {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}}, null);
+            //en vrai faudra appeler une methode provenant du service pour générer les params par défaut
+            serverLister(app, client, new ServicePackage.Service(service, {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, null), null);
         });
 
-        client.on('updatePosition', function(object) {
-            /*console.log(object);*/ //testé et on a tout
+        client.on('updatePosition', function (object) {
+            console.log("POSITION");
+            /*console.log(object.positions); //testé et on a tout*/
         });
 
-        client.on('submit_form', function (data, callback) {
+        client.on('submit_form', function (Service, callback) {
             console.log("submit");
-            if (data != null && 'service' in data && 'options' in data && 'positions' in data && callback != null)
-                serverLister(app, client, data, callback);
+            if (Service != null && 'service' in Service && 'options' in Service && Service.positions !== null && callback != null)
+                serverLister(app, client, Service, callback);
             else
                 console.log("invalid submit");
         });
