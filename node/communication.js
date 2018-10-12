@@ -1,7 +1,7 @@
 var asyncRequest = require("request");
 var weatherService = require("./widgets/weather.js").weatherService;
 var stockMarketService = require("./widgets/stockMarket.js").stockMarketService;
-var ServicePackage = require('./public/js/Service.js');
+const ServicePackage = require('./public/js/Service.js');
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);

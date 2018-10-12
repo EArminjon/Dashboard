@@ -71,36 +71,36 @@ var widgetData = function (selector) {
 };
 
 
+var submitRequest = function (service) {
+    console.log("on envoie");
+    socket.emit('submit_form', service,
+        function (result) {
+            console.log("Reception:");
+            if (result !== "") {
+                console.log("GOOD:");
+                /*console.log(service);*/
+                $("#" + service.options.id).html(result);
+                $("#" + service.options.id + " form").on('submit', submitFunction);
+            } else {
+                console.log("ERROR:");
+                console.log(result);
+            }
+        });
+};
+
+var submitFunction = function (event) {
+    if (event !== undefined)
+        event.preventDefault();
+    var service = widgetData(this);
+    service.positions = new Position(
+        $(this).data("col"),
+        $(this).data("row"),
+        $(this).data("sizex"),
+        $(this).data("sizey"));
+    submitRequest(service);
+};
+
 $(document).ready(function () {
-    var submitRequest = function (service) {
-        console.log("on envoie");
-        socket.emit('submit_form', service,
-            function (result) {
-                console.log("Reception:");
-                if (result !== "") {
-                    console.log("GOOD:");
-                    console.log(service);
-                    $("#" + service.options.id).html(result);
-                    $("#" + service.options.id + " form").on('submit', submitFunction);
-                } else {
-                    console.log("ERROR:");
-                    console.log(result);
-                }
-            });
-    };
-
-    var submitFunction = function (event) {
-        if (event !== undefined)
-            event.preventDefault();
-        var service = widgetData(this);
-        service.positions = new Position(
-            $(this).data("col"),
-            $(this).data("row"),
-            $(this).data("sizex"),
-            $(this).data("sizey"));
-        submitRequest(service);
-    };
-
     socket.on('addwidget', function (data) {
         /*console.log(object);*/
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
@@ -130,7 +130,7 @@ $(document).ready(function () {
                 return;
             console.log($("#" + id + "  form").submit());
         };
-        /*var uid = setInterval(refresh.bind(null, data.Service.options.id), 10000); //ça marche*/
+        /*var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000); //ça marche*/
     });
 
     $(".services-gallery .service .card").on('click', function () {

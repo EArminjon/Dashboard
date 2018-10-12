@@ -61,7 +61,9 @@ mongoose.connect(url, {useNewUrlParser: true}, (err) => {
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
     username: {type: String, unique: true},
-    password: String
+    password: String,
+    services: [Object],
+
 });
 const UserDetails = mongoose.model('User', UserDetail);
 
