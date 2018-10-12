@@ -14,7 +14,7 @@ var addWidgetWithUrl = function (app, client, obj, Service, callback) {
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', {html: html, id: Service.options.id, positions: Service.positions});
+                    client.emit('addwidget', {html: html, Service: Service});
                 else
                     callback(html);
             } else
@@ -68,7 +68,7 @@ module.exports.communication = function (app, io) {
 
         client.on('updatePosition', function (object) {
             console.log("POSITION");
-            console.log(object.positions); //testé et on a tout
+            /*console.log(object.positions); //testé et on a tout*/
         });
 
         client.on('submit_form', function (Service, callback) {

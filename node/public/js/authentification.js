@@ -101,28 +101,27 @@ $(document).ready(function () {
         submitRequest(service);
     };
 
-    socket.on('addwidget', function (object) {
+    socket.on('addwidget', function (data) {
         /*console.log(object);*/
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
         /*console.log(object);*/
-        if (object.positions !== null) {
+        if (data.Service.positions !== null) {
             console.log("positions found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + object.html + '</li>',
-                object.positions.sizex, object.positions.sizey, object.positions.col, object.positions.row,]);
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + data.html + '</li>',
+                data.Service.positions.sizex, data.Service.positions.sizey, data.Service.positions.col, data.Service.positions.row,]);
         } else {
             console.log("positions not found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + object.html + '</li>', 2, 2]);
-            var id = "#" + object.id;
-            object.positions = new Position(
+            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + data.html + '</li>', 2, 2]);
+            var id = "#" + data.Service.options.id;
+            data.Service.positions = new Position(
                 $(id).parent().data("col"),
                 $(id).parent().data("row"),
                 $(id).parent().data("sizex"),
                 $(id).parent().data("sizey"));
-            socket.emit('updatePosition', object);
+            socket.emit('updatePosition', data.Service);
         }
-        /*setInterval(function(){ alert("Hello"); }, 3000);*/
-        $("#" + object.id + "  form").on('submit', submitFunction);
+        $("#" + data.Service.options.id + "  form").on('submit', submitFunction);
         var refresh = function (id) {
             console.log("refresh " + id);
             if (id === undefined)
@@ -131,7 +130,7 @@ $(document).ready(function () {
                 return;
             console.log($("#" + id + "  form").submit());
         };
-        /*        var uid = setInterval(refresh.bind(null, object.id), 3000);*/ //ça marche
+        /*var uid = setInterval(refresh.bind(null, data.Service.options.id), 10000); //ça marche*/
     });
 
     $(".services-gallery .service .card").on('click', function () {
