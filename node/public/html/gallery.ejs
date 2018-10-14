@@ -1,0 +1,10 @@
+<div class="services-gallery">
+    <h3 class="gallery-title">Gallerie de service</h3>
+    <div class="service scrolling-wrapper">
+        <% for (var index in services) { %>
+        <div class="card service-title" data-id="<%= services[index] %>">
+            <%= services[index] %>
+        </div>
+        <% } %>
+    </div>
+</div>

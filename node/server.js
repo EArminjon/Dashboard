@@ -15,7 +15,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
-  }))
+}))
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 
@@ -56,7 +56,9 @@ mongoose.connect(url, {useNewUrlParser: true}, (err) => {
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
     username: {type: String, unique: true},
-    password: String
+    password: String,
+    services: [Object],
+
 });
 const UserDetails = mongoose.model('User', UserDetail);
 
@@ -120,7 +122,8 @@ passport.use('local-signup', new LocalStrategy({
             }
 
         });
-    }));
+    }
+));
 
 app.post('/signup',
     passport.authenticate('local-signup', {failureRedirect: '/signup'}),
@@ -137,7 +140,7 @@ app.get('/signup', isLoggedIn, (req, res) => {
 })
 
 function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         res.redirect('/success');
     }
     return next();
@@ -151,7 +154,7 @@ app.get('/success', isNotLogged, (req, res) => {
 });
 
 function isNotLogged(req, res, next) {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/');
@@ -159,7 +162,7 @@ function isNotLogged(req, res, next) {
 
 app.get('/error', (req, res) => res.send("error logging in"));
 
-app.get('/logout', function(req, res){
+app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });

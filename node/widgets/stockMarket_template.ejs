@@ -1,28 +1,35 @@
 <div class="widget" id="<%= id %>">
     <div class="invisible widget-options" style="position: absolute; z-index: 1">
-        <form data-id="<%= id %>" data-service="weather">
-
+        <form data-id="<%= id %>" data-service="stockMarket">
             <div class="form-group row">
-                <label for="widget_weather_city_<%= id %>" class="col-sm-2 col-form-label">Ville</label>
+                <label for="widget_stockMarket_city_<%= id %>" class="col-sm-2 col-form-label">Ville</label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="widget_weather_city_<%= id %>" style="width: 100%" name="city" value="<%= city %>" placeholder="Paris" type="text" required/>
+                    <input class="form-control" id="widget_stockMarket_city_<%= id %>" style="width: 100%" name="city" value="<%= city %>" placeholder="Paris" type="text" required/>
                 </div>
             </div>
             <div class="form-group row radio">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_c_<%= id %>" value="c" required/>
-                    <label class="form-check-label" for="widget_weather_degree_c_<%= id %>">Celsius</label>
+                    <input class="form-check-input" type="radio" name="degree" id="widget_stockMarket_degree_c_<%= id %>" value="c" required
+                    <% if (degree == 'c') { %> checked<% } %>/>
+                    <label class="form-check-label" for="widget_stockMarket_degree_c_<%= id %>">Celsius</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="degree" id="widget_weather_degree_f_<%= id %>" value="f" required/>
-                    <label class="form-check-label" for="widget_weather_degree_f_<%= id %>">Fahrenheit</label>
+                    <input class="form-check-input" type="radio" name="degree" id="widget_stockMarket_degree_f_<%= id %>" value="f" required
+                    <% if (degree == 'f') { %> checked<% } %>/>
+                    <label class="form-check-label" for="widget_stockMarket_degree_f_<%= id %>">Fahrenheit</label>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_nbDays_<%= id %>" class="col-sm-2 col-form-label">Jours</label>
+                <label for="widget_stockMarket_nbDays_<%= id %>" class="col-sm-2 col-form-label">Jours</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="number" name="nbDays" id="widget_weather_nbDays_<%= id %>" value="<%= nbDays %>" required/>
+                    <input class="form-control" type="number" name="nbDays" id="widget_stockMarket_nbDays_<%= id %>" value="<%= nbDays %>" required/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="widget_stockMarket_refresh_<%= id %>" class="col-sm-2 col-form-label">Actualiser</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="number" name="refresh" id="widget_stockMarket_refresh_<%= id %>" value="<%= refresh %>" required/>
                 </div>
             </div>
             <div class="col-auto">
@@ -31,17 +38,17 @@
         </form>
     </div>
     <div class="visible widget-content" style="position: absolute;z-index: 1; color: #00ABEB;">
-        <span data-weather="title"><%= city %></span>
+        <span data-stockMarket="title"><%= city %></span>
         <div class="container-fluid">
             <div class="row">
                 <% for (var index = 0; index < nbDays ; ++index) { %>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" data-day="<%= index %>">
-                        <span data-weather="day"><%= week[index].day %></span>
+                        <span data-stockMarket="day"><%= week[index].day %></span>
                         <table style="background-color: #FFFFFF; font-family: Roboto,serif; color: #868686;" cellpadding="0" cellspacing="0">
                             <tbody>
-                            <tr data-weather="day1" style="background-color: #FFFFFF;">
-                                <td data-weather="temp" style="background-color: #FFFFFF;" colspan="2">
-                                    <div class="temperature" data-weather="temp" style="color: #EB1924;">
+                            <tr data-stockMarket="day1" style="background-color: #FFFFFF;">
+                                <td data-stockMarket="temp" style="background-color: #FFFFFF;" colspan="2">
+                                    <div class="temperature" data-stockMarket="temp" style="color: #EB1924;">
                                         <% if (index == 0) { %>
                                             <%= temperature %>
                                         <% } else { %>
@@ -49,7 +56,7 @@
                                         <% } %>
                                     </div>
                                 </td>
-                                <td data-weather="image" colspan="3" style="background-color: #FFFFFF;"><img src="http://l.yimg.com/a/i/us/we/52/<%= week[index].code %>.gif" alt="Intervalles nuageux"></td>
+                                <td data-stockMarket="image" colspan="3" style="background-color: #FFFFFF;"><img src="http://l.yimg.com/a/i/us/we/52/<%= week[index].code %>.gif" alt="Intervalles nuageux"></td>
                             </tr>
                             </tbody>
                         </table>
