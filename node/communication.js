@@ -45,6 +45,7 @@ var serverLister = function (app, client, request, callback) {
 var id = 0;
 
 module.exports.communication = function (app, io) {
+
     io.on('connection', function (client) {
         console.log('Client connected...');
         client.on('join', function () {

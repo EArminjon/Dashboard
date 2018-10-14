@@ -72,7 +72,6 @@ passport.use(new LocalStrategy(
             username: username,
             password: password
         }, function (err, user) {
-            // console.log(user);
             if (err) {
                 return done(err);
             }
@@ -88,8 +87,8 @@ passport.use(new LocalStrategy(
 ));
 
 //////////////////////////////
-app.post('/',
-    passport.authenticate('local', {failureRedirect: '/error'}),
+app.post('/login',
+    passport.authenticate('local', {failureRedirect: '/'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
@@ -123,14 +122,18 @@ passport.use('local-signup', new LocalStrategy({
         });
     }));
 
-app.post('/a',
-    passport.authenticate('local-signup', {failureRedirect: '/error'}),
+app.post('/signup',
+    passport.authenticate('local-signup', {failureRedirect: '/signup'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
 
 app.get('/', isLoggedIn, (req, res) => {
-    res.sendFile(__dirname + '/public/html/auth.html');
+    res.sendFile(__dirname + '/public/html/login.html');
+})
+
+app.get('/signup', isLoggedIn, (req, res) => {
+    res.sendFile(__dirname + '/public/html/signup.html');
 })
 
 function isLoggedIn(req, res, next) {
