@@ -1,6 +1,7 @@
 var asyncRequest = require("request");
 var weatherService = require("./widgets/weather.js").weatherService;
 var stockMarketService = require("./widgets/stockMarket.js").stockMarketService;
+var rssService = require("./widgets/rss.js").rssService;
 const ServicePackage = require('./public/js/Service.js');
 
 function replaceAll(str, find, replace) {
@@ -33,6 +34,9 @@ var serverLister = function (app, client, Service, callback) {
         case 'stockMarket':
             obj = stockMarketService(Service.options);
             break;
+        case 'rss':
+            obj = rssService(Service.options);
+            break;
         default :
             console.log("error service");
             return null;
@@ -49,14 +53,14 @@ module.exports.communication = function (app, io) {
     io.on('connection', function (client) {
         console.log('Client connected...');
         client.on('join', function () {
+            /*id += 1;
+            serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);*/
             id += 1;
-            serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);
+            serverLister(app, client, new ServicePackage.Service('rss', {id: `widget_${id}`, refresh: 3}, new ServicePackage.Position(3, 1, 2, 2)), null);
             id += 1;
-            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 7, refresh: 3}, new ServicePackage.Position(3, 1, 2, 2)), null);
+            /*serverLister(app, client, new ServicePackage.Service('weather', {city: 'Londre', degree: 'f', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(5, 1, 2, 2)), null);
             id += 1;
-            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Londre', degree: 'f', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(5, 1, 2, 2)), null);
-            id += 1;
-            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, null), null);
+            serverLister(app, client, new ServicePackage.Service('weather', {city: 'Dubai', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, null), null);*/
         });
 
         client.on('addwidget', function (service) {

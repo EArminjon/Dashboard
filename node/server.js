@@ -15,7 +15,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
-}))
+}));
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 

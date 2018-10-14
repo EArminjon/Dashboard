@@ -1,5 +1,5 @@
 var socket = io.connect(window.location.host);
-console.log(socket.emit('join'));
+socket.emit('join');
 
 const emailInput = document.getElementById('emailInput');
 const passwordInput = document.getElementById('passwordInput');
