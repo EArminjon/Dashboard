@@ -19,7 +19,6 @@ app.use(session({
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 
-
 /* COM */
 require('./communication.js').communication(app, io);
 
@@ -147,7 +146,7 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get('/success', isNotLogged, (req, res) => {
-    var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
+    var services = ['weather', 'rss', 'sport', 'it', 'tv', 'radio'];
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
     });

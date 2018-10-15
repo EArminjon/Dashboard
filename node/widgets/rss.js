@@ -1,43 +1,47 @@
 const fs = require('fs');
+const fastXmlParser = require('fast-xml-parser');
 const ejs = require('ejs');
+const XML = require('pixl-xml');
 
-var widget = function (xml, app, options) {
 
-    var DomParser = require('dom-parser');
-    var parser = new DomParser();
+function widget(xml, app, options) {
 
-    fs.readFile(xml, 'utf8', function(err, html){
-        if (!err){
-            var dom = parser.parseFromString(html);
-
-            /*console.log(dom.getElementById('myElement').innerHTML);*/
-        } /*else
-            console.log(err);*/
-    });
-
+    var jsonObj = fastXmlParser.parse(xml);
+    var xmlArray = XML.parse(xml);
+    var data = xmlArray.channel;
 
     var ejsfile = fs.readFileSync(__dirname + '/rss_template.ejs', 'utf-8');
 
     return ejs.render(ejsfile, {
         ...options,
+        data: data,
     });
-};
+}
 
 function rssService(option) {
     var response = {url: null, function: null,};
 
-    if (!(option != null && 'refresh')) {
+    if (!(option != null && 'refresh' in option && 'url' in option)) {
         console.log(option);
-        console.log("Invalid option");
+        console.log("Invalid option rss");
         return response;
     }
 
-    response.url = `https://www.lemonde.fr/rss/une.xml`;
+    response.url = option.url;
     response.function = widget;
     return response;
 }
 
-module.exports = {
-    rssService: rssService,
-};
+function defaultOptions(id) {
+    return {
+        id: id,
+        url: 'https://www.lemonde.fr/rss/une.xml',
+        limit: 10,
+        refresh: 3600,
 
+    };
+}
+
+module.exports = {
+    functions: {service: rssService, defaultOptions: defaultOptions},
+};

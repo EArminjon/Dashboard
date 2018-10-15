@@ -33,7 +33,7 @@ function stockMarketService(option) {
 
     if (!(option != null && 'refresh' in option && 'city' in option && 'degree' in option)) {
         console.log(option);
-        console.log("Invalid option");
+        console.log("Invalid option stock");
         return response;
     }
 
@@ -42,7 +42,17 @@ function stockMarketService(option) {
     return response;
 }
 
-module.exports = {
-    stockMarketService: stockMarketService,
-};
+function defaultOptions(id) {
+    return {
+        id: id,
+        city: 'Paris',
+        degree: 'c',
+        nbDays: '1',
+        refresh: 3600,
 
+    };
+}
+
+module.exports = {
+    functions: {service: stockMarketService, defaultOptions: defaultOptions},
+};
