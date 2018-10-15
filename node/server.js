@@ -57,9 +57,9 @@ const Schema = mongoose.Schema;
 const UserDetail = new Schema({
     username: {type: String, unique: true},
     password: String,
-    services: [Object],
-
+    services: [Object]
 });
+
 const UserDetails = mongoose.model('User', UserDetail);
 
 //////////////////////////////
@@ -72,7 +72,7 @@ passport.use(new LocalStrategy(
     function (username, password, done) {
         UserDetails.findOne({
             username: username,
-            password: password
+            password: password,
         }, function (err, user) {
             if (err) {
                 return done(err);
@@ -100,9 +100,10 @@ app.post('/login',
 
 passport.use('local-signup', new LocalStrategy({
         usernameField: 'username',
-        passwordField: 'password'
+        passwordField: 'password',
+        passReqToCallback: true
     },
-    function (username, password, done) {
+    function (req, username, password, done) {
         UserDetails.findOne({username: username}, function (err, user) {
             if (err)
                 return done(err);
@@ -120,10 +121,8 @@ passport.use('local-signup', new LocalStrategy({
                     return done(null, newUser);
                 });
             }
-
         });
-    }
-));
+}));
 
 app.post('/signup',
     passport.authenticate('local-signup', {failureRedirect: '/signup'}),
