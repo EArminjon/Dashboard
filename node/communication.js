@@ -12,7 +12,8 @@ function replaceAll(str, find, replace) {
 
 var addWidgetWithUrl = function (app, client, obj, Service, callback) {
     asyncRequest(obj.url, function (error, response, body) {
-        if (response.statusCode === 200) {
+        console.log(response);
+        if (response !== null && typeof(response) !== 'undefined' && 'statusCode' in response && response.statusCode === 200) {
             var html = obj.function(body, app, Service.options);
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
