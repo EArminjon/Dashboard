@@ -1,5 +1,4 @@
 const fs = require('fs');
-const fastXmlParser = require('fast-xml-parser');
 const ejs = require('ejs');
 const XML = require('pixl-xml');
 
