@@ -1,5 +1,5 @@
 var socket = io.connect(window.location.host);
-console.log(socket.emit('join'));
+socket.emit('join', client);
 
 //Action quand on clique sur le bouton du widget
 $(document).on("click", ".gridster .option-button", function () {

@@ -6,6 +6,48 @@
     padding: 5px;
 }
 
+.widget-item-title {
+    font-size: 1.2em;
+}
+
+.widget-scrollbar {
+    overflow: auto;
+    height: 100%;
+}
+
+.widget-scrollbar:hover {
+    text-decoration: none;
+}
+
+.widget-article {
+    width: 100%;
+    margin-bottom: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.widget-article a:hover {
+    text-decoration: none;
+}
+
+.widget-content {
+    width: 100%;
+}
+
+.widget-item-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+
+.widget-item-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .row.radio {
     margin-left: 0px;
 }
@@ -19,6 +61,7 @@ div.button {
     overflow-y: hidden;
     white-space: nowrap;
 }
+
 .scrolling-wrapper .card {
     display: inline-block;
 }
@@ -28,6 +71,7 @@ div.button {
     flex-wrap: nowrap;
     overflow-x: auto;
 }
+
 .scrolling-wrapper-flexbox .card {
     flex: 0 0 auto;
     margin-right: 3px;
@@ -45,11 +89,10 @@ div.button {
     width: 100%;
     -webkit-overflow-scrolling: touch;
 }
+
 .scrolling-wrapper::-webkit-scrollbar, .scrolling-wrapper-flexbox::-webkit-scrollbar {
     display: none;
 }
-
-
 
 body {
     background: #26941f;

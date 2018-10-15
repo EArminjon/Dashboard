@@ -33,7 +33,7 @@ function weatherService(option) {
 
     if (!(option != null && 'refresh' in option && 'city' in option && 'degree' in option)) {
         console.log(option);
-        console.log("Invalid option");
+        console.log("Invalid option weather");
         return response;
     }
 
@@ -42,7 +42,18 @@ function weatherService(option) {
     return response;
 }
 
+function defaultOptions(id) {
+    return {
+        id: id,
+        city: 'Paris',
+        degree: 'c',
+        nbDays: '1',
+        refresh: 3600,
+
+    };
+}
+
 module.exports = {
-    weatherService: weatherService,
+    functions: {service: weatherService, defaultOptions: defaultOptions},
 };
 

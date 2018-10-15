@@ -15,17 +15,13 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
-}))
+}));
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
-
 
 /* COM */
 require('./communication.js').communication(app, io);
 const ServicePackage = require('./public/js/Service.js');
-var pos = new ServicePackage.Position(2, 2, 2, 2);
-var object = new ServicePackage.Service("weather", "city:Paris", pos);
-// console.log(object)
 /*  PASSPORT SETUP  */
 
 const passport = require('passport');
@@ -61,11 +57,7 @@ const Schema = mongoose.Schema;
 const UserDetail = new Schema({
     username: {type: String, unique: true},
     password: String,
-<<<<<<< HEAD
-    services: [Object]
-=======
     services: [],
->>>>>>> 9431f9c3a8171dbc327a6ef41b87a15696297b74
 });
 
 const UserDetails = mongoose.model('User', UserDetail);
@@ -130,7 +122,6 @@ passport.use('local-signup', new LocalStrategy({
 
                 newUser.save(function (err) {
                     if (err) {
-                        console.log(newUser)
                         throw err;
                     }
                     return done(null, newUser);
@@ -147,11 +138,11 @@ app.post('/signup',
 
 app.get('/', isLoggedIn, (req, res) => {
     res.sendFile(__dirname + '/public/html/login.html');
-})
+});
 
 app.get('/signup', isLoggedIn, (req, res) => {
     res.sendFile(__dirname + '/public/html/signup.html');
-})
+});
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -161,11 +152,10 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get('/success', isNotLogged, (req, res) => {
-    var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
-    var name = req.user.username
+    var services = ['weather', 'rss', 'sport', 'it', 'tv', 'radio'];
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
-        name, name
+        clientName: req.user.username,
     });
 });
 
