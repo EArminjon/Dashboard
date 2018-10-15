@@ -51,7 +51,9 @@ module.exports.communication = function (app, io) {
 
     io.on('connection', function (client) {
         console.log('Client connected...');
-        client.on('join', function () {
+        client.on('join', function (username) {
+            client["ClientID"] = username;
+            console.log(client.ClientID);
             /*id += 1;
             serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);*/
             id += 1;

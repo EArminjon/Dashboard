@@ -112,8 +112,9 @@ passport.use('local-signup', new LocalStrategy({
                 var newUser = new UserDetails();
                 newUser.username = username;
                 newUser.password = password;
-
                 newUser.save(function (err) {
+                    console.log("lol");
+                    console.log(newUser);
                     if (err)
                         throw err;
                     return done(null, newUser);
@@ -149,6 +150,7 @@ app.get('/success', isNotLogged, (req, res) => {
     var services = ['weather', 'rss', 'sport', 'it', 'tv', 'radio'];
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
+        clientName: req.user.username,
     });
 });
 
