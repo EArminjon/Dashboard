@@ -47,13 +47,26 @@ var serverLister = function (app, client, Service, callback) {
 
 var id = 0;
 
-module.exports.communication = function (app, io) {
+const UserDetails = require('./bdd');
 
+module.exports.communication = function (app, io) {
     io.on('connection', function (client) {
         console.log('Client connected...');
         client.on('join', function (username) {
             client["ClientID"] = username;
             console.log(client.ClientID);
+
+            UserDetails.getServices(username).then(function(result) {
+                // for (var i = 0 ; result.services[i]; ++i) {
+                //     console.log(result.services[i].service);
+                // }
+
+            });
+
+
+
+            console.log("HERE");
+
             /*id += 1;
             serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);*/
             id += 1;
