@@ -5,7 +5,6 @@ const XML = require('pixl-xml');
 
 function widget(xml, app, options) {
 
-    var jsonObj = fastXmlParser.parse(xml);
     var xmlArray = XML.parse(xml);
     var data = xmlArray.channel;
 
