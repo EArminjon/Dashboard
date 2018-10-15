@@ -1,25 +1,6 @@
 var socket = io.connect(window.location.host);
 socket.emit('join');
 
-const emailInput = document.getElementById('emailInput');
-const passwordInput = document.getElementById('passwordInput');
-const btnLogIn = document.getElementById('btnLogIn');
-const btnSignUp = document.getElementById('btnSignUp');
-
-function LoginInfos() {
-    // console.log("Login");
-    var email = document.getElementById("emailInput").value;
-    var password = document.getElementById("passwordInput").value;
-    socket.emit('LoginInfos', {email, password});
-};
-
-function SignupInfos() {
-    // console.log("Signup");
-    var email = document.getElementById("emailInput").value;
-    var password = document.getElementById("passwordInput").value;
-    socket.emit('SignupInfos', {email, password});
-};
-
 //Action quand on clique sur le bouton du widget
 $(document).on("click", ".gridster .option-button", function () {
     $(this).parent().parent().find("div.widget-options").toggleClass("visible").toggleClass("invisible");
