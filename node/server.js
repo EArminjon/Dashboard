@@ -22,7 +22,10 @@ server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080
 
 /* COM */
 require('./communication.js').communication(app, io);
-
+const ServicePackage = require('./public/js/Service.js');
+var pos = new ServicePackage.Position(2, 2, 2, 2);
+var object = new ServicePackage.Service("weather", "city:Paris", pos);
+// console.log(object)
 /*  PASSPORT SETUP  */
 
 const passport = require('passport');
@@ -54,12 +57,13 @@ mongoose.connect(url, {useNewUrlParser: true}, (err) => {
 });
 
 const Schema = mongoose.Schema;
+
 const UserDetail = new Schema({
     username: {type: String, unique: true},
     password: String,
-    services: [Object],
-
+    services: [],
 });
+
 const UserDetails = mongoose.model('User', UserDetail);
 
 //////////////////////////////
@@ -113,10 +117,17 @@ passport.use('local-signup', new LocalStrategy({
                 var newUser = new UserDetails();
                 newUser.username = username;
                 newUser.password = password;
+                var pos = new ServicePackage.Position(0, 0, 0, 0);
+                var obj1 = new ServicePackage.Service("weather", {city: 'Paris'}, pos);
+                var obj2 = new ServicePackage.Service("rss", {city: 'Paris'}, pos);
+                var obj3 = new ServicePackage.Service("stockMarket", {city: 'Paris'}, pos);
+                newUser.services = [obj1, obj2, obj3];
 
                 newUser.save(function (err) {
-                    if (err)
+                    if (err) {
+                        console.log(newUser)
                         throw err;
+                    }
                     return done(null, newUser);
                 });
             }
@@ -148,8 +159,10 @@ function isLoggedIn(req, res, next) {
 
 app.get('/success', isNotLogged, (req, res) => {
     var services = ['weather', 'news', 'sport', 'it', 'tv', 'radio'];
+    var name = req.user.username
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
+        name, name
     });
 });
 
