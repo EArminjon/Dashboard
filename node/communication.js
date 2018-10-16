@@ -45,20 +45,21 @@ function serverLister(app, client, Service, callback) {
         console.log("error widget");
 }
 
-let id = 0;
-
 const UserDetails = require('./bdd');
 
 module.exports.communication = function (app, io) {
     io.on('connection', function (client) {
         console.log('Client connected...');
+
         client.on('join', function (username) {
             client["ClientID"] = username;
+            client["ClientWidgetID"] = 0;
             UserDetails.getServices(username).then(function (result) {
                 for (let i = 0; result.services[i]; ++i) {
                     /*console.log(result.services[i]);*/
-                    if (result.services[i].options.id > id)
-                        id = result.services[i].options.id;
+                    console.log("ID:" + result.services[i].options.id);
+                    if (result.services[i].options.id > client.ClientWidgetID)
+                        client.ClientWidgetID = result.services[i].options.id;
                     serverLister(app, client, result.services[i], null);
                 }
             });
@@ -70,11 +71,11 @@ module.exports.communication = function (app, io) {
         });
 
         client.on('addwidget', function (serviceName) {
-            id += 1;
+            client.ClientWidgetID += 1;
             let options = null;
             Object.keys(ServicesManager).forEach(function (key) {
                 if (serviceName === key) {
-                    options = ServicesManager[key].defaultOptions(id);
+                    options = ServicesManager[key].defaultOptions(client.ClientWidgetID);
                 }
             });
             if (options === null) {
@@ -87,21 +88,24 @@ module.exports.communication = function (app, io) {
             serverLister(app, client, service, null);
         });
 
-        client.on('updatePosition', function (object) {
-            if (!('service' in object && 'options' in object && 'positions' in object)) {
-                console.log(object);
+        client.on('updatePosition', function (service) {
+            if (!('service' in service && 'options' in service && 'positions' in service)) {
+                console.log(service);
                 console.log("Update Position fail, bad argument.");
                 return;
             }
-            UserDetails.changeWidget(client.ClientID, object);
+            console.log(service);
+            UserDetails.changeWidget(client.ClientID, service);
         });
 
         client.on('submit_form', function (Service, callback) {
             console.log("submit");
-            if (Service != null && 'service' in Service && 'options' in Service && Service.positions !== null && callback != null)
+            if (Service != null && 'service' in Service && 'options' in Service && Service.positions !== null && callback != null) {
+                UserDetails.changeWidget(client.ClientID, Service);
                 serverLister(app, client, Service, callback);
-            else
+            } else {
                 console.log("invalid submit");
+            }
         });
     });
 };

@@ -85,22 +85,24 @@ var submitRequest = function (service) {
 var submitFunction = function (event) {
     if (event !== undefined)
         event.preventDefault();
-    var service = widgetData(this);
+    let service = widgetData(this);
+    let selector = $(this).parent().parent().parent();
+    console.log(selector);
     service.positions = new Position(
-        $(this).data("col"),
-        $(this).data("row"),
-        $(this).data("sizex"),
-        $(this).data("sizey"));
+        $(selector).data("col"),
+        $(selector).data("row"),
+        $(selector).data("sizex"),
+        $(selector).data("sizey"));
+    console.log(service.options.id);
     submitRequest(service);
 };
 
 $(document).ready(function () {
     socket.on('addWidget', function (data) {
-        /*console.log(object);*/
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-        /*console.log(object);*/
+        console.log(data.Service);
         if (data.Service.positions !== null) {
             console.log("positions found");
             gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`,

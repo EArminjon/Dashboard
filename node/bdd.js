@@ -23,7 +23,7 @@ function changeWidget(username, widget) {
             if (result.services[i].options.id === widget.options.id) {
                 result.services[i] = widget;
                 UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-                    console.log(result);
+                    /*console.log(result);*/
                 });
             }
         }
@@ -36,7 +36,7 @@ function removeWidget(username, widget) {
             if (result.services[i].options.id === widget.options.id) {
                 delete result.services[i];
                 UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-                    console.log(result);
+/*                    console.log(result);*/
                 });
             }
         }
