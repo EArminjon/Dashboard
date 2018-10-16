@@ -82,7 +82,7 @@ var submitFunction = function (event) {
 };
 
 $(document).ready(function () {
-    socket.on('addwidget', function (data) {
+    socket.on('addWidget', function (data) {
         /*console.log(object);*/
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';

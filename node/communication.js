@@ -1,4 +1,4 @@
-var asyncRequest = require("request");
+const asyncRequest = require("request");
 const ServicesManager = {
     'weather': require("./widgets/weather.js").functions,
     'stockMarket': require("./widgets/stockMarket.js").functions,
@@ -10,14 +10,14 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
-var addWidgetWithUrl = function (app, client, obj, Service, callback) {
+function addWidgetWithUrl(app, client, obj, Service, callback) {
     asyncRequest(obj.url, function (error, response, body) {
         if (response !== null && typeof(response) !== 'undefined' && 'statusCode' in response && response.statusCode === 200) {
-            var html = obj.function(body, app, Service.options);
+            let html = obj.function(body, app, Service.options);
             if (html != null) {
                 html = replaceAll(html, '\n', ' ');
                 if (callback == null)
-                    client.emit('addwidget', {html: html, Service: Service});
+                    client.emit('addWidget', {html: html, Service: Service});
                 else
                     callback(html);
             } else
@@ -25,10 +25,10 @@ var addWidgetWithUrl = function (app, client, obj, Service, callback) {
         } else
             console.log("error url fail");
     });
-};
+}
 
-var serverLister = function (app, client, Service, callback) {
-    var obj = null;
+function serverLister(app, client, Service, callback) {
+    let obj = null;
     Object.keys(ServicesManager).forEach(function (key) {
         if (Service.service === key) {
             obj = ServicesManager[key].service(Service.options);
@@ -43,9 +43,9 @@ var serverLister = function (app, client, Service, callback) {
         addWidgetWithUrl(app, client, obj, Service, callback);
     else
         console.log("error widget");
-};
+}
 
-var id = 0;
+let id = 0;
 
 const UserDetails = require('./bdd');
 
@@ -55,8 +55,10 @@ module.exports.communication = function (app, io) {
         client.on('join', function (username) {
             client["ClientID"] = username;
             UserDetails.getServices(username).then(function (result) {
-                for (var i = 0; result.services[i]; ++i) {
+                for (let i = 0; result.services[i]; ++i) {
                     /*console.log(result.services[i]);*/
+                    if (result.services[i].options.id > id)
+                        id = result.services[i].options.id;
                     serverLister(app, client, result.services[i], null);
                 }
             });
@@ -69,30 +71,29 @@ module.exports.communication = function (app, io) {
 
         client.on('addwidget', function (serviceName) {
             id += 1;
-
-            //add to bdd
-            var options = null;
+            let options = null;
             Object.keys(ServicesManager).forEach(function (key) {
                 if (serviceName === key) {
                     options = ServicesManager[key].defaultOptions(id);
                 }
             });
             if (options === null) {
-                console.log("error service 2");
+                console.log("add widget option null");
                 return null;
             }
 
-            var service = new ServicePackage.Service(serviceName, options, null);
+            let service = new ServicePackage.Service(serviceName, options, null);
             UserDetails.addWidget(client.ClientID, service);
             serverLister(app, client, service, null);
         });
 
         client.on('updatePosition', function (object) {
-            console.log("POSITION");
-            //verifier la validité
+            if (!('service' in object && 'options' in object && 'positions' in object)) {
+                console.log(object);
+                console.log("Update Position fail, bad argument.");
+                return;
+            }
             UserDetails.changeWidget(client.ClientID, object);
-            /*console.log(object);*/
-            /*console.log(object.positions); //testé et on a tout*/
         });
 
         client.on('submit_form', function (Service, callback) {
