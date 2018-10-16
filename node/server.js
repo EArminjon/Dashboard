@@ -19,9 +19,6 @@ app.use(session({
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 
-/* COM */
-require('./communication.js').communication(app, io);
-const ServicePackage = require('./public/js/Service.js');
 /*  PASSPORT SETUP  */
 
 const passport = require('passport');
@@ -32,19 +29,15 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-    UserDetails.findById(id, function (err, user) {
+    UserDetails.UserDetails.findById(id, function (err, user) {
         cb(err, user);
     });
 });
 
-//////////////////////////////
-
-/* MONGOOSE SETUP */
-
 const mongoose = require('mongoose');
 const url = "mongodb://robzzledieu:azerty123456@ds125423.mlab.com:25423/dashboard";
 
-mongoose.connect(url, {useNewUrlParser: true}, (err) => {
+var db = mongoose.connect(url, {useNewUrlParser: true}, (err) => {
     if (err) {
         console.log("Fail on connect db");
     } else {
@@ -52,15 +45,16 @@ mongoose.connect(url, {useNewUrlParser: true}, (err) => {
     }
 });
 
-const Schema = mongoose.Schema;
+const UserDetails = require('./bdd');
+// console.log(UserDetails.getServices('a@a.fr', db));
 
-const UserDetail = new Schema({
-    username: {type: String, unique: true},
-    password: String,
-    services: [],
-});
+//////////////////////////////
 
-const UserDetails = mongoose.model('User', UserDetail);
+/* MONGOOSE SETUP */
+
+/* COM */
+require('./communication.js').communication(app, io);
+const ServicePackage = require('./public/js/Service.js');
 
 //////////////////////////////
 
@@ -70,7 +64,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        UserDetails.findOne({
+        UserDetails.UserDetails.findOne({
             username: username,
             password: password,
         }, function (err, user) {
@@ -172,3 +166,8 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
+
+module.exports = {
+    passport: passport,
+    LocalStrategy: LocalStrategy
+}
