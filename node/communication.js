@@ -12,7 +12,6 @@ function replaceAll(str, find, replace) {
 
 var addWidgetWithUrl = function (app, client, obj, Service, callback) {
     asyncRequest(obj.url, function (error, response, body) {
-        console.log(response);
         if (response !== null && typeof(response) !== 'undefined' && 'statusCode' in response && response.statusCode === 200) {
             var html = obj.function(body, app, Service.options);
             if (html != null) {
@@ -58,7 +57,7 @@ module.exports.communication = function (app, io) {
             /*id += 1;
             serverLister(app, client, new ServicePackage.Service('stockMarket', {city: 'Paris', degree: 'c', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(1, 1, 2, 2)), null);*/
             id += 1;
-            serverLister(app, client, new ServicePackage.Service('rss', {id: `widget_${id}`, url: `https://www.lemonde.fr/rss/une.xml`, limit: 2, refresh: 3}, new ServicePackage.Position(3, 1, 2, 2)), null);
+            serverLister(app, client, new ServicePackage.Service('rss', {id: `widget_${id}`, title:'LeMonde', url: `https://www.lemonde.fr/rss/une.xml`, limit: 2, refresh: 3}, new ServicePackage.Position(3, 1, 2, 2)), null);
             id += 1;
             /*serverLister(app, client, new ServicePackage.Service('weather', {city: 'Londre', degree: 'f', id: `widget_${id}`, nbDays: 1, refresh: 3}, new ServicePackage.Position(5, 1, 2, 2)), null);
             id += 1;

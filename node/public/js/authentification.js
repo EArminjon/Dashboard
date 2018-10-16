@@ -84,16 +84,17 @@ var submitFunction = function (event) {
 $(document).ready(function () {
     socket.on('addwidget', function (data) {
         /*console.log(object);*/
+        var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
         /*console.log(object);*/
         if (data.Service.positions !== null) {
             console.log("positions found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + data.html + '</li>',
+            gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`,
                 data.Service.positions.sizex, data.Service.positions.sizey, data.Service.positions.col, data.Service.positions.row,]);
         } else {
             console.log("positions not found");
-            gridster.add_widget.apply(gridster, ['<li><div class="button">' + closeButton + optionButton + '</div>' + data.html + '</li>', 2, 2]);
+            gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`, 2, 2]);
             var id = "#" + data.Service.options.id;
             data.Service.positions = new Position(
                 $(id).parent().data("col"),

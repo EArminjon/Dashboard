@@ -2,6 +2,15 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
+.form-group {
+    width: 100%;
+    margin-left: 0 !important;
+}
+
+.col-form-label {
+    padding-left: 0 !important;
+}
+
 .widget {
     padding: 5px;
 }
@@ -14,6 +23,9 @@
     overflow: auto;
     height: 100%;
 }
+.widget-scrollbar::-webkit-scrollbar {
+    display: none;
+}
 
 .widget-scrollbar:hover {
     text-decoration: none;
@@ -21,7 +33,7 @@
 
 .widget-article {
     width: 100%;
-    margin-bottom: 10px;
+    height: 100%;
     text-decoration: none;
     cursor: pointer;
 }
@@ -132,7 +144,8 @@ table {
 }
 
 .gridster .gs-w {
-    background: red;
+    background: white;
+    border-radius: 5px;
     cursor: pointer;
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
