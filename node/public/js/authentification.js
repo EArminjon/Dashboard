@@ -20,15 +20,28 @@ var gridster = $(".gridster ul").gridster({
     widget_base_dimensions: [100, 100],
     widget_margins: [5, 5],
     helper: 'clone',
-    resize: {enabled: true},
+    resize: {
+        enabled: true,
+        stop: function (e, ui, $widget) {
+            let selector = $($widget);
+            let dataset = $widget[0].dataset;
+            let service = widgetData($(selector).find("form"));
+            service.positions = new Position(
+                dataset.col,
+                dataset.row,
+                dataset.sizex,
+                dataset.sizey);
+            socket.emit('updatePosition', service);
+        },
+    },
     draggable: {
         /*start: function(event, ui) {
             console.log("start drag");
         },*/
         stop: function (event, ui) {
-            var selector = $(ui.$player[0]);
-            var dataset = ui.$player[0].dataset;
-            var service = widgetData($(selector).find("form"));
+            let selector = $(ui.$player[0]);
+            let dataset = ui.$player[0].dataset;
+            let service = widgetData($(selector).find("form"));
             service.positions = new Position(
                 dataset.col,
                 dataset.row,
