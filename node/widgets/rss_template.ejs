@@ -38,13 +38,13 @@
                 <% return false; %>
             <% } %>
             <article class="widget-article">
+                <div class="widget-item-title">
+                    <%- item.title %>
+                </div>
+                <div class="widget-item-description">
+                    <%- item.description %>
+                </div>
                 <a href="<%- item.link %>">
-                    <div class="widget-item-title">
-                        <%- item.title %>
-                    </div>
-                    <div class="widget-item-description">
-                        <%- item.description %>
-                    </div>
                     <div style="width: 100%;">
                         <img class="img-fluid" src="<%= item.enclosure['url'] %>"/>
                     </div>

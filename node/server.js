@@ -115,9 +115,9 @@ passport.use('local-signup', new LocalStrategy({
                 newUser.username = username;
                 newUser.password = password;
                 var obj1 = new ServicePackage.Service("weather", ServicesManager['weather'].defaultOptions(1), null);
-                var obj2 = new ServicePackage.Service("rss", ServicesManager['rss'].defaultOptions(2), null);
-                var obj3 = new ServicePackage.Service("stockMarket", ServicesManager['stockMarket'].defaultOptions(3), null);
-                newUser.services = [obj1, obj2, obj3];
+                /*var obj2 = new ServicePackage.Service("rss", ServicesManager['rss'].defaultOptions(2), null);*/
+                /*newUser.services = [obj1, obj2];*/
+                newUser.services = [obj1];
 
                 newUser.save(function (err) {
                     if (err) {

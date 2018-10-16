@@ -11,7 +11,7 @@ $(document).on("click", ".gridster .close-button", function () {
     var selector = $(this).parent().parent();
     var service = widgetData($(selector).find("form"));
     // on ne récupère pas la position, on en a pas besoin
-    socket.emit('removewidget', service);
+    socket.emit('removeWidget', service);
     $(selector).addClass("widgetremoving");
     gridster.remove_widget($('.widgetremoving'));
 });

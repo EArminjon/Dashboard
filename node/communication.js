@@ -62,9 +62,15 @@ module.exports.communication = function (app, io) {
             });
         });
 
+        client.on('removeWidget', function (Service) {
+            console.log(Service);
+            UserDetails.removeWidget(client.ClientID, Service);
+        });
+
         client.on('addwidget', function (serviceName) {
             id += 1;
 
+            //add to bdd
             var options = null;
             Object.keys(ServicesManager).forEach(function (key) {
                 if (serviceName === key) {
@@ -76,11 +82,16 @@ module.exports.communication = function (app, io) {
                 return null;
             }
 
-            serverLister(app, client, new ServicePackage.Service(serviceName, options, null), null);
+            var service = new ServicePackage.Service(serviceName, options, null);
+            UserDetails.addWidget(client.ClientID, service);
+            serverLister(app, client, service, null);
         });
 
         client.on('updatePosition', function (object) {
             console.log("POSITION");
+            //verifier la validité
+            UserDetails.changeWidget(client.ClientID, object);
+            /*console.log(object);*/
             /*console.log(object.positions); //testé et on a tout*/
         });
 
