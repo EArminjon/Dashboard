@@ -102,11 +102,16 @@ $(document).ready(function () {
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-        console.log(data.Service);
+        console.log(data.Service.positions);
         if (data.Service.positions !== null) {
             console.log("positions found");
             gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`,
                 data.Service.positions.sizex, data.Service.positions.sizey, data.Service.positions.col, data.Service.positions.row,]);
+            let selector = `#${data.Service.options.id}`;
+            $(selector).parent().attr("data-col", data.Service.positions.col);
+            $(selector).parent().attr("data-row", data.Service.positions.row);
+            $(selector).parent().attr("data-sizex", data.Service.positions.sizex);
+            $(selector).parent().attr("data-sizey", data.Service.positions.sizey);
         } else {
             console.log("positions not found");
             gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`, 2, 2]);

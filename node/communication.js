@@ -3,6 +3,7 @@ const ServicesManager = {
     'weather': require("./widgets/weather.js").functions,
     'stockMarket': require("./widgets/stockMarket.js").functions,
     'rss': require("./widgets/rss.js").functions,
+    'radio': require("./widgets/radio.js").functions,
 };
 const ServicePackage = require('./public/js/Service.js');
 
@@ -10,18 +11,22 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
+function getAndSendHtml(app, client, obj, Service, callback, body) {
+    let html = obj.function(body, app, Service.options);
+    if (html != null) {
+        html = replaceAll(html, '\n', ' ');
+        if (callback == null)
+            client.emit('addWidget', {html: html, Service: Service});
+        else
+            callback(html);
+    } else
+        console.log("error html null");
+}
+
 function addWidgetWithUrl(app, client, obj, Service, callback) {
     asyncRequest(obj.url, function (error, response, body) {
         if (response !== null && typeof(response) !== 'undefined' && 'statusCode' in response && response.statusCode === 200) {
-            let html = obj.function(body, app, Service.options);
-            if (html != null) {
-                html = replaceAll(html, '\n', ' ');
-                if (callback == null)
-                    client.emit('addWidget', {html: html, Service: Service});
-                else
-                    callback(html);
-            } else
-                console.log("error html null");
+            getAndSendHtml(app, client, obj, Service, callback, body);
         } else
             console.log("error url fail");
     });
@@ -41,6 +46,8 @@ function serverLister(app, client, Service, callback) {
 
     if (obj != null && obj.function != null && obj.url != null)
         addWidgetWithUrl(app, client, obj, Service, callback);
+    else if (obj != null && obj.function != null && obj.url == null)
+        getAndSendHtml(app, client, obj, Service, callback, null);
     else
         console.log("error widget");
 }
@@ -79,7 +86,7 @@ module.exports.communication = function (app, io) {
                 }
             });
             if (options === null) {
-                console.log("add widget option null");
+                console.log(serviceName + " add widget option null");
                 return null;
             }
 
@@ -94,7 +101,6 @@ module.exports.communication = function (app, io) {
                 console.log("Update Position fail, bad argument.");
                 return;
             }
-            console.log(service);
             UserDetails.changeWidget(client.ClientID, service);
         });
 

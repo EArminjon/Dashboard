@@ -15,6 +15,7 @@ const ServicesManager = {
     'weather': require("./widgets/weather.js").functions,
     'stockMarket': require("./widgets/stockMarket.js").functions,
     'rss': require("./widgets/rss.js").functions,
+    'radio': require("./widgets/radio.js").functions,
 };
 
 app.use(session({
@@ -151,7 +152,7 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get('/success', isNotLogged, (req, res) => {
-    var services = ['weather', 'rss', 'sport', 'it', 'tv', 'radio'];
+    var services = ['weather', 'rss', 'radio', 'it', 'tv', 'sport'];
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
         clientName: req.user.username,
