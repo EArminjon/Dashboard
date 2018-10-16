@@ -11,6 +11,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
+const ServicesManager = {
+    'weather': require("./widgets/weather.js").functions,
+    'stockMarket': require("./widgets/stockMarket.js").functions,
+    'rss': require("./widgets/rss.js").functions,
+};
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -98,20 +104,19 @@ passport.use('local-signup', new LocalStrategy({
         passReqToCallback: true
     },
     function (req, username, password, done) {
-        UserDetails.findOne({username: username}, function (err, user) {
+        UserDetails.UserDetails.findOne({username: username}, function (err, user) {
             if (err)
                 return done(err);
 
             if (user) {
                 return done(null, false);
             } else {
-                var newUser = new UserDetails();
+                var newUser = new UserDetails.UserDetails();
                 newUser.username = username;
                 newUser.password = password;
-                var pos = new ServicePackage.Position(0, 0, 0, 0);
-                var obj1 = new ServicePackage.Service("weather", {city: 'Paris'}, pos);
-                var obj2 = new ServicePackage.Service("rss", {city: 'Paris'}, pos);
-                var obj3 = new ServicePackage.Service("stockMarket", {city: 'Paris'}, pos);
+                var obj1 = new ServicePackage.Service("weather", ServicesManager['weather'].defaultOptions(1), null);
+                var obj2 = new ServicePackage.Service("rss", ServicesManager['rss'].defaultOptions(2), null);
+                var obj3 = new ServicePackage.Service("stockMarket", ServicesManager['stockMarket'].defaultOptions(3), null);
                 newUser.services = [obj1, obj2, obj3];
 
                 newUser.save(function (err) {

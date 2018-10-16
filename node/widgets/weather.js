@@ -46,6 +46,7 @@ function defaultOptions(id) {
     return {
         id: id,
         city: 'Paris',
+        title: 'Weather',
         degree: 'c',
         nbDays: '1',
         refresh: 3600,

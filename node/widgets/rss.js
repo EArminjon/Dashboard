@@ -33,6 +33,7 @@ function rssService(option) {
 function defaultOptions(id) {
     return {
         id: id,
+        title: 'LeMonde',
         url: 'https://www.lemonde.fr/rss/une.xml',
         limit: 10,
         refresh: 3600,
