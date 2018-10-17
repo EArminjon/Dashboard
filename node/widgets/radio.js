@@ -3,8 +3,6 @@ const ejs = require('ejs');
 
 var widget = function (json, app, options) {
     var ejsfile = fs.readFileSync(__dirname + '/radio_template.ejs', 'utf-8');
-
-    console.log("radio");
     return ejs.render(ejsfile, {
         ...options,
     });

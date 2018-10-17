@@ -1,4 +1,4 @@
-var socket = io.connect(window.location.host);
+const socket = io.connect(window.location.host);
 socket.emit('join', client);
 
 //Action quand on clique sur le bouton du widget
@@ -8,15 +8,15 @@ $(document).on("click", ".gridster .option-button", function () {
 });
 
 $(document).on("click", ".gridster .close-button", function () {
-    var selector = $(this).parent().parent();
-    var service = widgetData($(selector).find("form"));
+    let selector = $(this).parent().parent();
+    let service = widgetData($(selector).find("form"));
     // on ne récupère pas la position, on en a pas besoin
     socket.emit('removeWidget', service);
     $(selector).addClass("widgetremoving");
     gridster.remove_widget($('.widgetremoving'));
 });
 
-var gridster = $(".gridster ul").gridster({
+let gridster = $(".gridster ul").gridster({
     widget_base_dimensions: [100, 100],
     widget_margins: [5, 5],
     helper: 'clone',
@@ -27,10 +27,10 @@ var gridster = $(".gridster ul").gridster({
             let dataset = $widget[0].dataset;
             let service = widgetData($(selector).find("form"));
             service.positions = new Position(
-                dataset.col,
-                dataset.row,
-                dataset.sizex,
-                dataset.sizey);
+                Number(dataset.col),
+                Number(dataset.row),
+                Number(dataset.sizex),
+                Number(dataset.sizey))  ;
             socket.emit('updatePosition', service);
         },
     },
@@ -52,7 +52,7 @@ var gridster = $(".gridster ul").gridster({
     }
 }).data('gridster');
 
-var widgetData = function (selector) {
+function widgetData(selector) {
     var name = $(selector).data("service");
     var id = $(selector).data("id");
     var formData = $(selector).serializeArray();
@@ -62,7 +62,7 @@ var widgetData = function (selector) {
         array[key.name] = key.value;
     });
     return new Service(name, array, null);
-};
+}
 
 
 var submitRequest = function (service) {
@@ -82,20 +82,20 @@ var submitRequest = function (service) {
         });
 };
 
-var submitFunction = function (event) {
+function submitFunction(event) {
     if (event !== undefined)
         event.preventDefault();
     let service = widgetData(this);
     let selector = $(this).parent().parent().parent();
-    console.log(selector);
+    /*console.log(selector);*/
     service.positions = new Position(
         $(selector).data("col"),
         $(selector).data("row"),
         $(selector).data("sizex"),
         $(selector).data("sizey"));
-    console.log(service.options.id);
+    /*console.log(service.positions);*/
     submitRequest(service);
-};
+}
 
 $(document).ready(function () {
     socket.on('addWidget', function (data) {
@@ -132,7 +132,7 @@ $(document).ready(function () {
                 return;
             console.log($("#" + id + "  form").submit());
         };
-        /*var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000); //ça marche*/
+        var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000); //ça marche
     });
 
     $(".services-gallery .service .card").on('click', function () {

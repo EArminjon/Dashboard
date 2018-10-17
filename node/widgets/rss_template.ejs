@@ -46,7 +46,10 @@
                 </div>
                 <a href="<%- item.link %>">
                     <div style="width: 100%;">
-                        <img class="img-fluid" src="<%= item.enclosure['url'] %>"/>
+                        <img class="img-fluid" alt="No picture available" src="<% if (item.enclosure) { %>
+                                                        <%= item.enclosure['url'] %>
+                                                    <% } %>
+                                                    "/>
                     </div>
                 </a>
             </article>
