@@ -13,7 +13,6 @@ app.use(express.static(__dirname + '/public'));
 
 const ServicesManager = {
     'weather': require("./widgets/weather.js").functions,
-    'stockMarket': require("./widgets/stockMarket.js").functions,
     'rss': require("./widgets/rss.js").functions,
     'radio': require("./widgets/radio.js").functions,
 };
@@ -152,7 +151,11 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get('/success', isNotLogged, (req, res) => {
-    var services = ['weather', 'rss', 'radio', 'it', 'tv', 'sport'];
+    let services = [];
+
+    for (let service in ServicesManager) {
+        services.push(service);
+    }
     res.render(__dirname + '/public/html/index.ejs', {
         services: services,
         clientName: req.user.username,

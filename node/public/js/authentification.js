@@ -43,10 +43,10 @@ let gridster = $(".gridster ul").gridster({
             let dataset = ui.$player[0].dataset;
             let service = widgetData($(selector).find("form"));
             service.positions = new Position(
-                dataset.col,
-                dataset.row,
-                dataset.sizex,
-                dataset.sizey);
+                Number(dataset.col),
+                Number(dataset.row),
+                Number(dataset.sizex),
+                Number(dataset.sizey));
             socket.emit('updatePosition', service);
         }
     }
@@ -73,8 +73,10 @@ var submitRequest = function (service) {
             if (result !== "") {
                 console.log("GOOD:");
                 /*console.log(service);*/
-                $("#" + service.options.id).html(result);
-                $("#" + service.options.id + " form").on('submit', submitFunction);
+                let selector = `#${service.options.id}`;
+                $(selector).html(result);
+                $(selector).parent().find(".widget-title").html(service.options.title);
+                $(selector).find("form").on('submit', submitFunction);
             } else {
                 console.log("ERROR:");
                 console.log(result);
@@ -102,7 +104,7 @@ $(document).ready(function () {
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
-        console.log(data.Service.positions);
+/*        console.log(data.Service.positions);*/
         if (data.Service.positions !== null) {
             console.log("positions found");
             gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`,

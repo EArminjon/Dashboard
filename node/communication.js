@@ -1,7 +1,6 @@
 const asyncRequest = require("request");
 const ServicesManager = {
     'weather': require("./widgets/weather.js").functions,
-    'stockMarket': require("./widgets/stockMarket.js").functions,
     'rss': require("./widgets/rss.js").functions,
     'radio': require("./widgets/radio.js").functions,
 };
@@ -73,7 +72,7 @@ module.exports.communication = function (app, io) {
         });
 
         client.on('removeWidget', function (Service) {
-            console.log(Service);
+            /*console.log(Service);*/
             UserDetails.removeWidget(client.ClientID, Service);
         });
 
