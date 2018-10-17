@@ -19,11 +19,14 @@ function getAndSendHtml(app, client, obj, Service, callback, body) {
 }
 
 function addWidgetWithUrl(app, client, obj, Service, callback) {
-    asyncRequest(obj.url, function (error, response, body) {
+    asyncRequest(obj.url, {headers: obj.header}, function (error, response, body) {
         if (response !== null && typeof(response) !== 'undefined' && 'statusCode' in response && response.statusCode === 200) {
             getAndSendHtml(app, client, obj, Service, callback, body);
-        } else
+        } else {
+            console.log(response);
+            console.log(obj.url);
             console.log("error url fail");
+        }
     });
 }
 

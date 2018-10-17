@@ -2,6 +2,12 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
+.widget-options.visible {
+    position: relative !important;
+    background-color: white;
+    border-radius: 5px;
+}
+
 .form-group {
     width: 100%;
     margin-left: 0 !important;

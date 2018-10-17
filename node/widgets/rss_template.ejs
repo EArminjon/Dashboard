@@ -1,5 +1,5 @@
 <div class="widget" id="<%= id %>">
-    <div class="invisible widget-options" style="position: absolute; z-index: 1">
+    <div class="invisible widget-options" style="position: absolute; z-index: 10">
         <form data-id="<%= id %>" data-service="rss">
             <div class="form-group row">
                 <label for="widget_rss_title_<%= id %>" class="col-sm-2 col-form-label">Titre</label>
@@ -30,7 +30,7 @@
             </div>
         </form>
     </div>
-    <div class="visible widget-content widget-scrollbar" style="color: #00ABEB;">
+    <div class="visible widget-content widget-scrollbar" style="z-index: 1;color: #00ABEB;">
         <% var index = 0 %>
         <% data.item.forEach(function(item) { %>
             <% index += 1 %>

@@ -9,7 +9,7 @@ var widget = function (json, app, options) {
 };
 
 function radioService(option) {
-    var response = {url: null, function: null,};
+    var response = {url: null, function: null, header: null};
 
     response.function = widget;
     return response;

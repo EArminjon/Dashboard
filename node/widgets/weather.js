@@ -29,7 +29,7 @@ var widget = function (json, app, options) {
 };
 
 function weatherService(option) {
-    var response = {url: null, function: null,};
+    var response = {url: null, function: null, header: null};
 
     if (!(option != null && 'refresh' in option && 'city' in option && 'degree' in option)) {
         console.log(option);

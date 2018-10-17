@@ -1,5 +1,5 @@
 <div class="widget" id="<%= id %>">
-    <div class="invisible widget-options" style="position: absolute; z-index: 1">
+    <div class="invisible widget-options" style="position: absolute; z-index: 10">
         <form data-id="<%= id %>" data-service="weather">
             <div class="form-group row">
                 <label for="widget_weather_title_<%= id %>" class="col-sm-2 col-form-label">Titre</label>
@@ -43,11 +43,11 @@
             </div>
         </form>
     </div>
-    <div class="visible widget-content" style="color: #00ABEB;">
+    <div class="visible widget-content" style="color: #00ABEB; z-index: 1">
         <span data-weather="title"><%= city %></span>
         <div class="container-fluid">
             <div class="row">
-                <% for (var index = 0; index < nbDays ; ++index) { %>
+                <% for (var index = 0; index < 8 && index < nbDays ; ++index) { %>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" data-day="<%= index %>">
                         <span data-weather="day"><%= week[index].day %></span>
                         <table style="background-color: #FFFFFF; font-family: Roboto,serif; color: #868686;" cellpadding="0" cellspacing="0">

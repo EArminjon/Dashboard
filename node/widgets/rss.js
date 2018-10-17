@@ -17,7 +17,7 @@ function widget(xml, app, options) {
 }
 
 function rssService(option) {
-    var response = {url: null, function: null,};
+    var response = {url: null, function: null, header: null};
 
     if (!(option != null && 'refresh' in option && 'url' in option)) {
         console.log(option);

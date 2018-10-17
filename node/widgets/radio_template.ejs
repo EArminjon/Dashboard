@@ -1,5 +1,5 @@
 <div class="widget" id="<%= id %>">
-    <div class="invisible widget-options" style="position: absolute; z-index: 1">
+    <div class="invisible widget-options" style="position: absolute; z-index: 10">
         <form data-id="<%= id %>" data-service="radio">
             <div class="form-group row">
                 <label for="widget_radio_title_<%= id %>" class="col-sm-2 col-form-label">Titre</label>
@@ -24,10 +24,10 @@
             </div>
         </form>
     </div>
-    <div class="visible widget-content" style="color: #00ABEB;">
+    <div class="visible widget-content" style="z-index:1;color: #00ABEB;">
         <div class="container-fluid">
             <div class="row">
-                <audio controls="" preload="auto" src="<%= url %>" style="width:100%"></audio>
+                <audio controls="" preload="auto" src="<%= url %>" style="height: 100%;width:100%"></audio>
             </div>
         </div>
     </div>
