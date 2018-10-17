@@ -62,7 +62,7 @@ module.exports.communication = function (app, io) {
             UserDetails.getServices(username).then(function (result) {
                 for (let i = 0; result.services[i]; ++i) {
                     /*console.log(result.services[i]);*/
-                    console.log("ID:" + result.services[i].options.id);
+                    /*console.log("ID:" + result.services[i].options.id);*/
                     if (result.services[i].options.id > client.ClientWidgetID)
                         client.ClientWidgetID = result.services[i].options.id;
                     serverLister(app, client, result.services[i], null);

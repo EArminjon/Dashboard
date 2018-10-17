@@ -74,9 +74,11 @@ var submitRequest = function (service) {
                 console.log("GOOD:");
                 /*console.log(service);*/
                 let selector = `#${service.options.id}`;
-                $(selector).html(result);
-                $(selector).parent().find(".widget-title").html(service.options.title);
-                $(selector).find("form").on('submit', submitFunction);
+                let safe = $(selector).parent();
+                $(selector).remove();
+                safe.append(result);
+                $(safe).parent().find(".widget-title").html(service.options.title);
+                $(safe).find("form").on('submit', submitFunction);
             } else {
                 console.log("ERROR:");
                 console.log(result);
@@ -89,13 +91,12 @@ function submitFunction(event) {
         event.preventDefault();
     let service = widgetData(this);
     let selector = $(this).parent().parent().parent();
-    /*console.log(selector);*/
     service.positions = new Position(
         $(selector).data("col"),
         $(selector).data("row"),
         $(selector).data("sizex"),
         $(selector).data("sizey"));
-    /*console.log(service.positions);*/
+    console.log(service.positions);
     submitRequest(service);
 }
 
