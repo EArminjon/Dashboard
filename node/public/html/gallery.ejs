@@ -2,31 +2,29 @@
     <h3 class="gallery-title">Gallerie de service</h3>
     <div class="service scrolling-wrapper">
         <% for (var index in services) { %>
-        <% var photo %>
-        <% if (services[index] == "weather") { %>
-            <% photo = 'images/meteotry.png' %>
-        <% } %>
+            <% var photo %>
+            <% if (services[index] == "weather") { %>
+                <% photo = 'images/meteotry.png' %>
+            <% } %>
 
-        <% if (services[index] == "rss") { %>
-            <% photo = 'images/news.png' %>
-        <% } %>
+            <% if (services[index] == "rss") { %>
+                <% photo = 'images/news.png' %>
+            <% } %>
 
-        <% if (services[index] == "radio") { %>
-            <% photo = 'images/radio.png' %>
-        <% } %>
+            <% if (services[index] == "radio") { %>
+                <% photo = 'images/radio.png' %>
+            <% } %>
 
-        <div style="background-image: url(<%= photo %>)" class="card service-title" data-id="<%= services[index] %>">
-            <p class="font-weight-bold">
-                <%= services[index] %>
-            </p>
-        </div>
-        <% } %>
+            <% if (services[index] == "fortnite") { %>
+                <% photo = 'images/fortnite.gif' %>
+            <% } %>
 
-    <div style="background-image: url(images/fortnite.gif)" class="card service-title" data-id="fortnite">
-        <p class="font-weight-bold">
-            Fortnite
-        </p>
-    </div>
+            <div style="background-image: url(<%= photo %>)" class="card service-title" data-id="<%= services[index] %>">
+                <p class="font-weight-bold">
+                    <%= services[index] %>
+                </p>
+            </div>
+        <% } %>
     </div>
 
 </div>
