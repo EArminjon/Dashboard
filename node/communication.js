@@ -1,9 +1,5 @@
 const asyncRequest = require("request");
-const ServicesManager = {
-    'weather': require("./widgets/weather.js").functions,
-    'rss': require("./widgets/rss.js").functions,
-    'radio': require("./widgets/radio.js").functions,
-};
+const ServicesManager = require('./servicesManager.js').servicesManager();
 const ServicePackage = require('./public/js/Service.js');
 
 function replaceAll(str, find, replace) {

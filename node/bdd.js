@@ -1,8 +1,16 @@
-const mongoose = require('mongoose');
 const assert = require('assert');
+const mongoose = require('mongoose');
+
+const url = "mongodb://robzzledieu:azerty123456@ds125423.mlab.com:25423/dashboard";
+mongoose.connect(url, {useNewUrlParser: true}, (err) => {
+    if (err) {
+        console.log("Fail on connect db");
+    } else {
+        console.log("Connected to db");
+    }
+});
 
 const Schema = mongoose.Schema;
-
 const UserDetail = new Schema({
     username: {type: String, unique: true},
     password: String,
@@ -36,7 +44,7 @@ function removeWidget(username, widget) {
             if (result.services[i].options.id === widget.options.id) {
                 delete result.services[i];
                 UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-/*                    console.log(result);*/
+                    /*                    console.log(result);*/
                 });
             }
         }
@@ -47,7 +55,7 @@ function addWidget(username, widget) {
     getServices(username).then(function (result) {
         var find = false;
         var i = 0;
-        for (;result.services[i]; ++i) {
+        for (; result.services[i]; ++i) {
             if (result.services[i].options.id === widget.options.id) {
                 result.services[i] = widget;
                 find = true;

@@ -3,19 +3,15 @@
 const express = require('express');
 const app = express();
 
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+let server = require('http').createServer(app);
+let io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
 const session = require('express-session');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
-const ServicesManager = {
-    'weather': require("./widgets/weather.js").functions,
-    'rss': require("./widgets/rss.js").functions,
-    'radio': require("./widgets/radio.js").functions,
-};
+const ServicesManager = require('./servicesManager.js').servicesManager();
 
 app.use(session({
     secret: 'keyboard cat',
@@ -25,109 +21,15 @@ app.use(session({
 
 server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
 
-/*  PASSPORT SETUP  */
-
-const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser(function (user, cb) {
-    cb(null, user.id);
-});
-
-passport.deserializeUser(function (id, cb) {
-    UserDetails.UserDetails.findById(id, function (err, user) {
-        cb(err, user);
-    });
-});
-
-const mongoose = require('mongoose');
-const url = "mongodb://robzzledieu:azerty123456@ds125423.mlab.com:25423/dashboard";
-
-var db = mongoose.connect(url, {useNewUrlParser: true}, (err) => {
-    if (err) {
-        console.log("Fail on connect db");
-    } else {
-        console.log("Connected to db");
-    }
-});
-
-const UserDetails = require('./bdd');
-// console.log(UserDetails.getServices('a@a.fr', db));
-
-//////////////////////////////
-
-/* MONGOOSE SETUP */
-
-/* COM */
 require('./communication.js').communication(app, io);
-const ServicePackage = require('./public/js/Service.js');
+const passport = require('./authentification.js').authentification(app);
 
-//////////////////////////////
-
-/* PASSPORT LOCAL AUTHENTICATION */
-
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        UserDetails.UserDetails.findOne({
-            username: username,
-            password: password,
-        }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false);
-            }
-            if (user.password != password) {
-                return done(null, false);
-            }
-            return done(null, user);
-        });
-    }
-));
-
-//////////////////////////////
+/* ROUTE */
 app.post('/login',
     passport.authenticate('local', {failureRedirect: '/'}),
     function (req, res) {
         res.redirect('/success?username=' + req.user.username);
     });
-
-
-/////////////////////////////////
-
-passport.use('local-signup', new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password',
-        passReqToCallback: true
-    },
-    function (req, username, password, done) {
-        UserDetails.UserDetails.findOne({username: username}, function (err, user) {
-            if (err)
-                return done(err);
-
-            if (user) {
-                return done(null, false);
-            } else {
-                var newUser = new UserDetails.UserDetails();
-                newUser.username = username;
-                newUser.password = password;
-                var obj1 = new ServicePackage.Service("weather", ServicesManager['weather'].defaultOptions(1), null);
-                /*var obj2 = new ServicePackage.Service("rss", ServicesManager['rss'].defaultOptions(2), null);*/
-                /*newUser.services = [obj1, obj2];*/
-                newUser.services = [obj1];
-
-                newUser.save(function (err) {
-                    if (err) {
-                        throw err;
-                    }
-                    return done(null, newUser);
-                });
-            }
-        });
-}));
 
 app.post('/signup',
     passport.authenticate('local-signup', {failureRedirect: '/signup'}),
@@ -178,5 +80,4 @@ app.get('/logout', function (req, res) {
 
 module.exports = {
     passport: passport,
-    LocalStrategy: LocalStrategy
-}
+};
