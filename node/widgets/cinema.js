@@ -5,7 +5,6 @@ var widget = function (json, app, options) {
     let data = JSON.parse(json);
     let error = false;
 
-    console.log(data);
     let movies = data.Search;
     if (typeof(data.error) !== "undefined" || data.Response === 'False')
         error = true;
