@@ -43,6 +43,7 @@ function removeWidget(username, widget) {
         for (var i = 0; result.services[i]; ++i) {
             if (result.services[i].options.id === widget.options.id) {
                 delete result.services[i];
+                result.services = result.services.filter(Boolean);
                 UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
                     /*                    console.log(result);*/
                 });
@@ -64,7 +65,7 @@ function addWidget(username, widget) {
         if (find === false)
             result.services[i] = widget;
         UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-            console.log(result);
+            /*console.log(result);*/
         });
     });
 }
