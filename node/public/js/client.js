@@ -103,8 +103,8 @@ function submitFunction(event) {
 $(document).ready(function () {
     socket.on('addWidget', function (data) {
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
-        var optionButton = '<button class="option-button" style="position:relative;z-index:100;float:right;">&#9881;</button>';
-        var closeButton = '<button class="close-button" style="position:relative;z-index:100;float:right;">&#128465;</button>';
+        var optionButton = '<button class="option-button" style="position:relative;z-index:1;float:right;">&#9881;</button>';
+        var closeButton = '<button class="close-button" style="position:relative;z-index:1;float:right;">&#128465;</button>';
 /*        console.log(data.Service.positions);*/
         if (data.Service.positions !== null) {
             console.log("positions found");
