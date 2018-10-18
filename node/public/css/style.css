@@ -2,12 +2,6 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
-.centreVerticalement {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
 .form-check-input[type="radio"] {
     margin-right: 3px !important;
 }

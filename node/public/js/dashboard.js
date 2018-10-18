@@ -38,3 +38,8 @@ setInterval(function() {
 
   $('#bol').css({'color': 'rgb(' + red + ', ' + green + ', ' + blue +')'})
 }, 200);
+
+$('#logoutbutton').click(function() {
+  window.location='/logout';
+  console.log("eftrgsgn");
+})

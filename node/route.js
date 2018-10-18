@@ -25,13 +25,13 @@ module.exports.router = function (app, passport) {
     app.post('/login',
         passport.authenticate('local', {failureRedirect: '/'}),
         function (req, res) {
-            res.redirect('/success?username=' + req.user.username);
+            res.redirect('/dashboard');
         });
 
     app.post('/signup',
         passport.authenticate('local-signup', {failureRedirect: '/signup'}),
         function (req, res) {
-            res.redirect('/success?username=' + req.user.username);
+            res.redirect('/dashboard');
         });
 
     app.get('/', isLoggedIn, (req, res) => {
@@ -44,12 +44,12 @@ module.exports.router = function (app, passport) {
 
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()) {
-            res.redirect('/success');
+            res.redirect('/dashboard');
         }
         return next();
     }
 
-    app.get('/success', isNotLogged, (req, res) => {
+    app.get('/dashboard', isNotLogged, (req, res) => {
         let services = [];
 
         for (let service in ServicesManager) {

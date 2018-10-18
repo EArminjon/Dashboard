@@ -51,7 +51,6 @@ body {
   background: #FF2C75;
   transform: scale(0);
   transition: transform 0.8s cubic-bezier(0.16, 1.08, 0.38, 0.98);
-  z-index: 1;
 }
 
 .Mask {
