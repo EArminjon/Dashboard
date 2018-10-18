@@ -19,6 +19,14 @@
                 <% photo = 'images/fortnite.gif' %>
             <% } %>
 
+            <% if (services[index] == "time") { %>
+                <% photo = 'images/time.png' %>
+            <% } %>
+
+            <% if (services[index] == "cinema") { %>
+                <% photo = 'images/cinema.png' %>
+            <% } %>
+
             <div style="background-image: url(<%= photo %>)" class="card service-title" data-id="<%= services[index] %>">
                 <p class="font-weight-bold">
                     <%= services[index] %>
