@@ -1,0 +1,184 @@
+{
+  "client": {
+    "host": ""
+  },
+  "server": {
+    "current_time": 0,
+    "services": [
+      {
+        "name": "weather",
+        "widgets": [
+          {
+            "name": "weather",
+            "description": "Show temperature for a city",
+            "params": [
+              {
+                "name": "city",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "degree",
+                "type": "string"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rss",
+        "widgets": [
+          {
+            "name": "rss",
+            "description": "RSS flux for news",
+            "params": [
+              {
+                "name": "url",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "limit",
+                "type": "number"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "radio",
+        "widgets": [
+          {
+            "name": "radio",
+            "description": "Web radio",
+            "params": [
+              {
+                "name": "url",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "time",
+        "widgets": [
+          {
+            "name": "time",
+            "description": "Local time of city",
+            "params": [
+              {
+                "name": "city",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fortnite",
+        "widgets": [
+          {
+            "name": "fortnite",
+            "description": "Stats of fortnite's player",
+            "params": [
+              {
+                "name": "pseudo",
+                "type": "string"
+              },
+              {
+                "name:": "plateforme",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "cinema",
+        "widgets": [
+          {
+            "name": "cinema",
+            "description": "Search film by name",
+            "params": [
+              {
+                "name": "movie",
+                "type": "string"
+              },
+              {
+                "name:": "title",
+                "type": "string"
+              },
+              {
+                "name:": "refresh",
+                "type": "number"
+              },
+              {
+                "name:": "id",
+                "type": "number"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

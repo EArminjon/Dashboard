@@ -1,7 +1,27 @@
 const ServicesManager = require('./servicesManager.js').servicesManager();
+const fs = require('fs');
 
-module.exports.router = function(app, passport) {
+function getUnixTime() {
+    Date.prototype.toUnixTime = function () {
+        return this.getTime() / 1000 | 0
+    };
+    Date.time = function () {
+        return new Date().toUnixTime();
+    };
+    return Date.time();
+}
+
+module.exports.router = function (app, passport) {
     /* ROUTE */
+    app.get('/about.json', (req, res) => {
+        const about = JSON.parse(fs.readFileSync(__dirname + '/about.json', 'utf8'));
+
+        console.log(req.ip);
+        about.client.host = req.ip.split(':').pop();
+        about.server.current_time = getUnixTime();
+        res.send(about);
+    });
+
     app.post('/login',
         passport.authenticate('local', {failureRedirect: '/'}),
         function (req, res) {
