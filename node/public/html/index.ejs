@@ -1,8 +1,15 @@
 <html>
 <%- include ./head -%>
 <body>
-<div>
-    <h1 class="row justify-content-center" style="margin-bottom:100">DASHBOARD</h1>
+
+<div class="Menu" style="margin-bottom:100">
+  <ul class="Menu-list" data-offset="10">
+    <li class="Menu-list-item" data-offset="20" onclick>
+      DASHBOARD
+      <span class="Mask"><span>DASHBOARD</span></span>
+      <span class="Mask"><span>DASHBOARD</span></span>
+    </li>
+  </ul>
 </div>
 <%- include ./gallery -%>
 <script>
@@ -13,9 +20,11 @@
     </ul>
 </div>
 
+<button type="button" class="btn btn-outline-danger fixed-top">Sign Out</button>
+
 <script type="text/javascript" src="js/Service.js"></script>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="js/client.js"></script>
-<script type="text/javascript" src="js/try.js"></script>
+<script type="text/javascript" src="js/dashboard.js"></script>
 </body>
 </html>
