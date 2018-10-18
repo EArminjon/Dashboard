@@ -2,14 +2,14 @@
     <div class="invisible widget-options" style="position: absolute; z-index: 10">
         <form data-id="<%= id %>" data-service="weather">
             <div class="form-group row">
-                <label for="widget_weather_title_<%= id %>" class="col-sm-2 col-form-label">Titre</label>
-                <div class="col-sm-10">
+                <label for="widget_weather_title_<%= id %>" class="col-sm-6 col-form-label">Titre</label>
+                <div class="col-sm-6">
                     <input class="form-control" id="widget_weather_title_<%= id %>" style="width: 100%" name="title" value="<%= title %>" placeholder="Paris" type="text" required/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_city_<%= id %>" class="col-sm-2 col-form-label">Ville</label>
-                <div class="col-sm-10">
+                <label for="widget_weather_city_<%= id %>" class="col-sm-6 col-form-label">Ville</label>
+                <div class="col-sm-6">
                     <input class="form-control" id="widget_weather_city_<%= id %>" style="width: 100%" name="city" value="<%= city %>" placeholder="Paris" type="text" required/>
                 </div>
             </div>
@@ -31,14 +31,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_nbDays_<%= id %>" class="col-sm-2 col-form-label">Jours</label>
-                <div class="col-sm-10">
+                <label for="widget_weather_nbDays_<%= id %>" class="col-sm-6 col-form-label">Jours</label>
+                <div class="col-sm-6">
                     <input class="form-control" type="number" name="nbDays" id="widget_weather_nbDays_<%= id %>" value="<%= nbDays %>" required/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_refresh_<%= id %>" class="col-sm-2 col-form-label">Actualiser</label>
-                <div class="col-sm-10">
+                <label for="widget_weather_refresh_<%= id %>" class="col-sm-6 col-form-label">Actualiser</label>
+                <div class="col-sm-6">
                     <input class="form-control" type="number" name="refresh" id="widget_weather_refresh_<%= id %>" value="<%= refresh %>" required/>
                 </div>
             </div>
@@ -47,23 +47,33 @@
             </div>
         </form>
     </div>
-    <div class="visible widget-content" style="color: #00ABEB; z-index: 1">
-        <span data-weather="title"><%= city %></span>
+    <div class="visible widget-content widget-scrollbar" style="color: #AAAAAA"; z-index: 1">
+        <h2 data-weather="title"><%= city %></h2>
         <div class="container-fluid">
+            <tr data-weather="day1" style="background-color: #FFFFFF;">
+                <span data-weather="day" style="color: black"> Today </span>
+                    <table style="background-color: #FFFFFF; margin:auto; font-family: Roboto,serif; color: #868686;" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr data-weather="day1" style="background-color: #FFFFFF;">
+                                <td data-weather="temp" style="background-color: #FFFFFF;" colspan="2">
+                                    <div class="temperature" data-weather="temp" style="color: #EB1924;">
+                                            <%= temperature %>
+                                    </div>
+                                </td>
+                                <td data-weather="image" colspan="3" style="background-color: #FFFFFF;"><img src="http://l.yimg.com/a/i/us/we/52/<%= week[0].code %>.gif" alt="Intervalles nuageux"></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <div class="row">
-                <% for (var index = 0; index < 8 && index < nbDays ; ++index) { %>
+                <% for (var index = 1; index < 8 && index < nbDays ; ++index) { %>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" data-day="<%= index %>">
-                        <span data-weather="day"><%= week[index].day %></span>
+                        <span data-weather="day" style="color: black"><%= week[index].day %></span>
                         <table style="background-color: #FFFFFF; font-family: Roboto,serif; color: #868686;" cellpadding="0" cellspacing="0">
                             <tbody>
                             <tr data-weather="day1" style="background-color: #FFFFFF;">
                                 <td data-weather="temp" style="background-color: #FFFFFF;" colspan="2">
                                     <div class="temperature" data-weather="temp" style="color: #EB1924;">
-                                        <% if (index == 0) { %>
-                                            <%= temperature %>
-                                        <% } else { %>
-                                            <%= week[index].low %>  - <%= week[index].high %>
-                                        <% } %>
+                                        <%= week[index].low %>  - <%= week[index].high %>
                                     </div>
                                 </td>
                                 <td data-weather="image" colspan="3" style="background-color: #FFFFFF;"><img src="http://l.yimg.com/a/i/us/we/52/<%= week[index].code %>.gif" alt="Intervalles nuageux"></td>
