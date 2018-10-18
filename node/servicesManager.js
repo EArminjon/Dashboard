@@ -5,5 +5,6 @@ module.exports.servicesManager = function () {
         'radio': require("./widgets/radio.js").functions,
         'fortnite': require("./widgets/fortnite.js").functions,
         'time': require("./widgets/time.js").functions,
+        'cinema': require("./widgets/cinema.js").functions,
     };
 };

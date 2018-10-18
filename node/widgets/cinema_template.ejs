@@ -1,0 +1,46 @@
+<div class="widget" id="<%= id %>">
+    <div class="invisible widget-options" style="position: absolute; z-index: 10">
+        <form data-id="<%= id %>" data-service="cinema">
+            <div class="form-group row">
+                <label for="widget_cinema_title_<%= id %>" class="col-sm-2 col-form-label">Titre</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="widget_cinema_title_<%= id %>" style="width: 100%" name="title" value="<%= title %>" placeholder="Paris" type="text" required/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="widget_cinema_movie_<%= id %>" class="col-sm-2 col-form-label">Movie</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="movie" id="widget_cinema_movie_<%= id %>" value="<%= movie %>" required/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="widget_cinema_refresh_<%= id %>" class="col-sm-2 col-form-label">Actualiser</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="number" name="refresh" id="widget_cinema_refresh_<%= id %>" value="<%= refresh %>" required/>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Envoyer</button>
+            </div>
+        </form>
+    </div>
+    <div class="visible widget-content widget-scrollbar" style="z-index:1;color: #00ABEB;">
+        <div class="container-fluid">
+            <div class="row">
+                <% for (var index in movies) { %>
+                    <article class="widget-article">
+                        <div>
+                            <%= movies[index].Title %>
+                        </div>
+                        <div>
+                            <%= movies[index].Year %>
+                        </div>
+                        <div>
+                            <img class="img-fluid" alt="No picture available" src="<%= movies[index].Poster %>"/>
+                        </div>
+                    </article>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

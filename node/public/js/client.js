@@ -77,7 +77,7 @@ var submitRequest = function (service) {
                 let safe = $(selector).parent();
                 $(selector).remove();
                 safe.append(result);
-                $(safe).parent().find(".widget-title").html(service.options.title);
+                $(safe).find(".widget-title").html(service.options.title);
                 $(safe).find("form").on('submit', submitFunction);
             } else {
                 console.log("ERROR:");
