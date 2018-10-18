@@ -2,10 +2,12 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
+.form-check-input[type="radio"] {
+    margin-right: 3px !important;
+}
+
 .widget-options.visible {
     position: relative !important;
-    background-color: white;
-    border-radius: 5px;
 }
 
 .form-group {
@@ -30,6 +32,7 @@
     overflow: auto;
     height: 100%;
 }
+
 .widget-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -59,7 +62,6 @@
     text-overflow: ellipsis;
     margin-bottom: 10px;
 }
-
 
 .widget-item-description {
     white-space: nowrap;

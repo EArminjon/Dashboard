@@ -1,15 +1,15 @@
 <div class="widget" id="<%= id %>">
-    <div class="invisible widget-options" style="position: absolute; z-index: 10">
+    <div class="invisible widget-options widget-scrollbar" style="position: absolute; z-index: 10">
         <form data-id="<%= id %>" data-service="weather">
             <div class="form-group row">
-                <label for="widget_weather_title_<%= id %>" class="col-sm-6 col-form-label">Titre</label>
-                <div class="col-sm-6">
+                <label for="widget_weather_title_<%= id %>" class="col-sm-4 col-form-label">Titre</label>
+                <div class="col-sm-8">
                     <input class="form-control" id="widget_weather_title_<%= id %>" style="width: 100%" name="title" value="<%= title %>" placeholder="Paris" type="text"/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_city_<%= id %>" class="col-sm-6 col-form-label">Ville</label>
-                <div class="col-sm-6">
+                <label for="widget_weather_city_<%= id %>" class="col-sm-4 col-form-label">Ville</label>
+                <div class="col-sm-8">
                     <input class="form-control" id="widget_weather_city_<%= id %>" style="width: 100%" name="city" value="<%= city %>" placeholder="Paris" type="text" required/>
                 </div>
             </div>
@@ -31,14 +31,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_nbDays_<%= id %>" class="col-sm-6 col-form-label">Jours</label>
-                <div class="col-sm-6">
+                <label for="widget_weather_nbDays_<%= id %>" class="col-sm-4 col-form-label">Jours</label>
+                <div class="col-sm-8">
                     <input class="form-control" type="number" name="nbDays" id="widget_weather_nbDays_<%= id %>" value="<%= nbDays %>" required/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widget_weather_refresh_<%= id %>" class="col-sm-6 col-form-label">Actualiser</label>
-                <div class="col-sm-6">
+                <label for="widget_weather_refresh_<%= id %>" class="col-sm-4 col-form-label">Actualiser</label>
+                <div class="col-sm-8">
                     <input class="form-control" type="number" name="refresh" id="widget_weather_refresh_<%= id %>" value="<%= refresh %>" required/>
                 </div>
             </div>
