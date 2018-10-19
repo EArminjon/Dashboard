@@ -96,7 +96,7 @@ function submitFunction(event) {
         $(selector).data("row"),
         $(selector).data("sizex"),
         $(selector).data("sizey"));
-    console.log(service.positions);
+/*    console.log(service.positions);*/
     submitRequest(service);
 }
 
@@ -138,7 +138,7 @@ $(document).ready(function () {
         /*var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000); //ça marche*/
     });
 
-    $(".services-gallery .service .card").on('click', function () {
+    $(".dashboard-header li.nav-item").on('click', function () {
         console.log("click");
         var service = $(this).data("id");
         socket.emit('addwidget', service);

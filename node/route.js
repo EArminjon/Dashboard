@@ -16,7 +16,7 @@ module.exports.router = function (app, passport) {
     app.get('/about.json', (req, res) => {
         const about = JSON.parse(fs.readFileSync(__dirname + '/about.json', 'utf8'));
 
-        console.log(req.ip);
+/*        console.log(req.ip);*/
         about.client.host = req.ip.split(':').pop();
         about.server.current_time = getUnixTime();
         res.send(about);

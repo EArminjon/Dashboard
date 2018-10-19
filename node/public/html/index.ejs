@@ -2,19 +2,7 @@
 <%- include ./head -%>
 <body>
 
-<nav class="navbar fixed-top">
-    <button id="logoutbutton" type="button" class="btn btn-outline-danger">Sign Out</button>
-</nav>
-<div class="Menu" style="margin-bottom:100;">
-  <ul class="Menu-list" data-offset="10">
-    <li class="Menu-list-item" data-offset="20" onclick>
-      DASHBOARD
-      <span class="Mask"><span>DASHBOARD</span></span>
-      <span class="Mask"><span>DASHBOARD</span></span>
-    </li>
-  </ul>
-</div>
-<%- include ./gallery -%>
+<%- include ./header %>
 <script>
     var client = "<%= clientName %>";
 </script>
@@ -26,6 +14,5 @@
 <script type="text/javascript" src="js/Service.js"></script>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="js/client.js"></script>
-<script type="text/javascript" src="js/dashboard.js"></script>
 </body>
 </html>

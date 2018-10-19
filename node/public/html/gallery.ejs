@@ -1,40 +1,24 @@
-<div class="services-gallery">
-    <div id="bol">
-        <h3 class="row justify-content-center">Add your favorites widgets:</h3>
-    </div>
-    <div class="service scrolling-wrapper row justify-content-center" style="margin-bottom:100">
-        <% for (var index in services) { %>
-            <% var photo %>
-            <% if (services[index] == "weather") { %>
-                <% photo = 'images/meteotry.png' %>
-            <% } %>
-
-            <% if (services[index] == "rss") { %>
-                <% photo = 'images/news.png' %>
-            <% } %>
-
-            <% if (services[index] == "radio") { %>
-                <% photo = 'images/radio.png' %>
-            <% } %>
-
-            <% if (services[index] == "fortnite") { %>
-                <% photo = 'images/fortnite.gif' %>
-            <% } %>
-
-            <% if (services[index] == "time") { %>
-                <% photo = 'images/time.png' %>
-            <% } %>
-
-            <% if (services[index] == "cinema") { %>
-                <% photo = 'images/cinema.png' %>
-            <% } %>
-
-            <div style="background-image: url(<%= photo %>)" class="card service-title" data-id="<%= services[index] %>">
-                <p class="font-weight-bold">
-                    <%= services[index] %>
-                </p>
-            </div>
+<!--<div class="services-gallery">
+    <div class="service scrolling-wrapper row justify-content-center" style="margin-bottom:100px">-->
+<div class="row">
+    <% for (var index in services) { %>
+        <% var photo %>
+        <% if (services[index] == "weather") { %>
+            <% photo = 'images/meteotry.png' %>
+        <% } else if (services[index] == "rss") { %>
+            <% photo = 'images/news.png' %>
+        <% } else if (services[index] == "radio") { %>
+            <% photo = 'images/radio.png' %>
+        <% } else if (services[index] == "fortnite") { %>
+            <% photo = 'images/fortnite.gif' %>
+        <% } else if (services[index] == "time") { %>
+            <% photo = 'images/time.png' %>
+        <% } else if (services[index] == "cinema") { %>
+            <% photo = 'images/cinema.png' %>
         <% } %>
-    </div>
-
+        <li class="nav-item col-md-2" data-id="<%= services[index] %>">
+            <p style="position: absolute;font-size: 12px;margin: 5px;"><%= services[index] %></p>
+            <img style="width: 120px" src="<%= photo %>">
+        </li>
+    <% } %>
 </div>

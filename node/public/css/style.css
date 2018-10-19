@@ -2,6 +2,10 @@
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
+.dashboard-header {
+    padding-bottom: 60px;
+}
+
 .form-check-input[type="radio"] {
     margin-right: 3px !important;
 }
@@ -180,7 +184,7 @@ table {
 }
 
 .gridster ul {
-    background-color: #EFEFEF;
+    /*background-color: #EFEFEF;*/
 }
 
 .gridster li {
