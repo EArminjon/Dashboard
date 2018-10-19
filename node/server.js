@@ -17,7 +17,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
-server.listen(app.listen(8080, () => console.log('App listening on port ' + 8080)));
+var port = process.env.PORT || 8080;
+
+server.listen(app.listen(port, () => console.log('App listening on port ' + port)));
 
 require('./communication.js').communication(app, io);
 const passport = require('./authentification.js').authentification(app);
