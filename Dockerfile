@@ -16,7 +16,7 @@ ADD ./node/widgets/* /app/widgets/
 WORKDIR /app/
 
 # Install express
-RUN npm install
+RUN npm i -f
 
 EXPOSE 8080
 

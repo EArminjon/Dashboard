@@ -30,7 +30,7 @@ let gridster = $(".gridster ul").gridster({
                 Number(dataset.col),
                 Number(dataset.row),
                 Number(dataset.sizex),
-                Number(dataset.sizey))  ;
+                Number(dataset.sizey));
             socket.emit('updatePosition', service);
         },
     },
@@ -96,7 +96,7 @@ function submitFunction(event) {
         $(selector).data("row"),
         $(selector).data("sizex"),
         $(selector).data("sizey"));
-/*    console.log(service.positions);*/
+    /*    console.log(service.positions);*/
     submitRequest(service);
 }
 
@@ -105,7 +105,7 @@ $(document).ready(function () {
         var title = `<span class="widget-title">${data.Service.options.title}</span>`;
         var optionButton = '<button class="option-button" style="position:relative;z-index:1;float:right;">&#9881;</button>';
         var closeButton = '<button class="close-button" style="position:relative;z-index:1;float:right;">&#128465;</button>';
-/*        console.log(data.Service.positions);*/
+        /*        console.log(data.Service.positions);*/
         if (data.Service.positions !== null) {
             console.log("positions found");
             gridster.add_widget.apply(gridster, [`<li><div class="button">${title}${closeButton}${optionButton}</div>${data.html}</li>`,
@@ -142,6 +142,10 @@ $(document).ready(function () {
         console.log("click");
         var service = $(this).data("id");
         socket.emit('addwidget', service);
+    });
+
+    $('#logoutbutton').on('click', function () {
+        window.location = '/logout';
     });
 
 });

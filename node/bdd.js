@@ -2,13 +2,18 @@ const assert = require('assert');
 const mongoose = require('mongoose');
 
 const url = "mongodb://robzzledieu:azerty123456@ds125423.mlab.com:25423/dashboard";
-mongoose.connect(url, {useNewUrlParser: true}, (err) => {
-    if (err) {
-        console.log("Fail on connect db");
-    } else {
-        console.log("Connected to db");
-    }
-});
+mongoose.connect(url,
+    {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useFindAndModify: false
+    }, (err) => {
+        if (err) {
+            console.log("Fail on connect db");
+        } else {
+            console.log("Connected to db");
+        }
+    });
 
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
