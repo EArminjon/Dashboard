@@ -135,7 +135,7 @@ $(document).ready(function () {
                 return;
             console.log($("#" + id + "  form").submit());
         };
-        /*var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000); //ça marche*/
+        var uid = setInterval(refresh.bind(null, data.Service.options.id), data.Service.options.refresh * 1000);
     });
 
     $(".dashboard-header li.nav-item").on('click', function () {
