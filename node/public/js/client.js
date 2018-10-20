@@ -66,12 +66,12 @@ function widgetData(selector) {
 
 
 var submitRequest = function (service) {
-    console.log("on envoie");
+    /*console.log("on envoie");*/
     socket.emit('submit_form', service,
         function (result) {
-            console.log("Reception:");
+            /*console.log("Reception:");*/
             if (result !== "") {
-                console.log("GOOD:");
+                /*console.log("GOOD:");*/
                 /*console.log(service);*/
                 let selector = `#${service.options.id}`;
                 let safe = $(selector).parent();

@@ -32,14 +32,15 @@ function getServices(username) {
 
 function changeWidget(username, widget) {
     getServices(username).then(function (result) {
-        for (var i = 0; result.services[i]; ++i) {
-            if (result.services[i].options.id === widget.options.id) {
-                result.services[i] = widget;
-                UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-                    /*console.log(result);*/
-                });
+        if ('services' in result)
+            for (let i = 0; result.services[i]; ++i) {
+                if (result.services[i].options.id === widget.options.id) {
+                    result.services[i] = widget;
+                    UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
+                        /*console.log(result);*/
+                    });
+                }
             }
-        }
     });
 }
 
