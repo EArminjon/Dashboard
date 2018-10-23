@@ -32,7 +32,7 @@ function getServices(username) {
 
 function changeWidget(username, widget) {
     getServices(username).then(function (result) {
-        if ('services' in result)
+        if (result != null && 'services' in result)
             for (let i = 0; result.services[i]; ++i) {
                 if (result.services[i].options.id === widget.options.id) {
                     result.services[i] = widget;
@@ -46,28 +46,30 @@ function changeWidget(username, widget) {
 
 function removeWidget(username, widget) {
     getServices(username).then(function (result) {
-        for (var i = 0; result.services[i]; ++i) {
-            if (result.services[i].options.id === widget.options.id) {
-                delete result.services[i];
-                result.services = result.services.filter(Boolean);
-                UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
-                    /*                    console.log(result);*/
-                });
+        if (result != null && 'services' in result)
+            for (let i = 0; result.services[i]; ++i) {
+                if (result.services[i].options.id === widget.options.id) {
+                    delete result.services[i];
+                    result.services = result.services.filter(Boolean);
+                    UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
+                        /*                    console.log(result);*/
+                    });
+                }
             }
-        }
     });
 }
 
 function addWidget(username, widget) {
     getServices(username).then(function (result) {
-        var find = false;
-        var i = 0;
-        for (; result.services[i]; ++i) {
-            if (result.services[i].options.id === widget.options.id) {
-                result.services[i] = widget;
-                find = true;
+        let find = false;
+        let i = 0;
+        if (result != null && 'services' in result)
+            for (; result.services[i]; ++i) {
+                if (result.services[i].options.id === widget.options.id) {
+                    result.services[i] = widget;
+                    find = true;
+                }
             }
-        }
         if (find === false)
             result.services[i] = widget;
         UserDetails.findOneAndUpdate({_id: result._id}, {services: result.services}).then(function (result) {
